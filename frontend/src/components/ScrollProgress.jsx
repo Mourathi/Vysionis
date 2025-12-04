@@ -94,14 +94,8 @@ function ScrollProgress() {
         </div>
       </div>
 
-      {/* Linhas conectivas horizontais que se movem */}
-      <div 
-        className="connection-line"
-        style={{ 
-          top: `${scrollProgress}%`,
-          transform: 'translateY(-50%)'
-        }}
-      />
+      {/* Efeito granulado */}
+      <div className="grain-overlay" />
     </div>
   )
 }
