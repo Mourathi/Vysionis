@@ -37,7 +37,7 @@ function ScrollProgress() {
         style={{ 
           height: `${scrollProgress}%`,
           '--progress': `${scrollProgress}%`
-        } as React.CSSProperties}
+        }}
       >
         {/* Núcleo de energia que acompanha o progresso */}
         <div 
@@ -63,7 +63,7 @@ function ScrollProgress() {
               '--delay': `${i * 0.2}s`,
               '--duration': `${3 + (i % 3)}s`,
               '--offset': `${(i % 5) * 20}px`
-            } as React.CSSProperties}
+            }}
           />
         ))}
       </div>
@@ -79,4 +79,3 @@ function ScrollProgress() {
 }
 
 export default ScrollProgress
-
