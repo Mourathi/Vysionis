@@ -1,0 +1,40 @@
+.technologies {
+  background: linear-gradient(180deg, #0f0f14 0%, var(--dark-bg) 100%);
+}
+
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.tech-card {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(139, 63, 217, 0.1);
+  transition: all 0.3s ease;
+  text-align: center;
+  cursor: pointer;
+}
+
+.tech-card:hover {
+  border-color: var(--purple);
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(139, 63, 217, 0.3);
+}
+
+.tech-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 0.5rem;
+}
+
+.tech-category {
+  font-size: 0.9rem;
+  color: var(--text-gray);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
