@@ -1,14 +1,15 @@
 .scroll-progress-container {
-  position: fixed;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 100vh;
-  z-index: 9999;
-  pointer-events: none;
-  overflow: visible;
-}
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 100vh;
+    z-index: -1; /
+    pointer-events: none;
+    overflow: visible;
+    opacity: 0.4;
+  }
 
 /* Linha central sutil */
 .scroll-line {
