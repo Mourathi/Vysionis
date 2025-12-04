@@ -90,4 +90,20 @@
   .section {
     padding: 4rem 0;
   }
+  
+}
+.hero,
+.about,
+.projects,
+.services,
+.technologies,
+.contact,
+.footer,
+nav,
+button,
+a,
+.card,
+.btn {
+  position: relative;
+  z-index: 1;
 }
