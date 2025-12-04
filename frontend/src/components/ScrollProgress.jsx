@@ -24,56 +24,84 @@ function ScrollProgress() {
     }
   }, [])
 
-  const progressPosition = scrollProgress
-
   return (
     <div className="scroll-progress-container">
-      {/* Linha central com gradiente */}
-      <div className="scroll-line" />
-      
-      {/* Barra de progresso que desce */}
-      <div 
-        className="scroll-progress-bar" 
-        style={{ 
-          height: `${scrollProgress}%`,
-          '--progress': `${scrollProgress}%`
-        }}
-      >
-        {/* Núcleo de energia que acompanha o progresso */}
+      {/* Lado Esquerdo - Sutil */}
+      <div className="scroll-side scroll-left">
+        <div className="side-line" />
         <div 
-          className="energy-core"
-          style={{ 
-            top: `${scrollProgress}%`,
-            transform: 'translate(-50%, -50%)'
-          }}
+          className="side-progress" 
+          style={{ height: `${scrollProgress}%` }}
         >
-          <div className="core-inner" />
-          <div className="core-outer" />
-          <div className="core-pulse" />
+          <div className="progress-glow" />
+        </div>
+        {/* Partículas sutis */}
+        <div className="side-particles">
+          {[...Array(8)].map((_, i) => (
+            <div 
+              key={i} 
+              className="side-particle"
+              style={{
+                '--delay': `${i * 0.3}s`,
+                '--duration': `${4 + (i % 2)}s`
+              }}
+            />
+          ))}
         </div>
       </div>
 
-      {/* Partículas flutuantes */}
-      <div className="particles">
-        {[...Array(20)].map((_, i) => (
+      {/* Lado Direito - Destacado com opacidade alta */}
+      <div className="scroll-side scroll-right">
+        <div className="side-line" />
+        <div 
+          className="side-progress side-progress-bright" 
+          style={{ height: `${scrollProgress}%` }}
+        >
+          <div className="progress-glow progress-glow-bright" />
+          {/* Núcleo de energia que acompanha */}
           <div 
-            key={i} 
-            className="particle"
-            style={{
-              '--delay': `${i * 0.2}s`,
-              '--duration': `${3 + (i % 3)}s`,
-              '--offset': `${(i % 5) * 20}px`
+            className="energy-core-right"
+            style={{ 
+              top: `${scrollProgress}%`,
+              transform: 'translate(-50%, -50%)'
             }}
-          />
-        ))}
+          >
+            <div className="core-inner-right" />
+            <div className="core-outer-right" />
+            <div className="core-pulse-right" />
+          </div>
+        </div>
+        
+        {/* Partículas destacadas */}
+        <div className="side-particles side-particles-bright">
+          {[...Array(15)].map((_, i) => (
+            <div 
+              key={i} 
+              className="side-particle side-particle-bright"
+              style={{
+                '--delay': `${i * 0.15}s`,
+                '--duration': `${3 + (i % 3)}s`,
+                '--offset': `${(i % 7) * 15}px`
+              }}
+            />
+          ))}
+        </div>
+
+        {/* Ondas de energia */}
+        <div className="energy-waves-right">
+          <div className="wave-right wave-1" />
+          <div className="wave-right wave-2" />
+        </div>
       </div>
 
-      {/* Ondas de energia */}
-      <div className="energy-waves">
-        <div className="wave wave-1" />
-        <div className="wave wave-2" />
-        <div className="wave wave-3" />
-      </div>
+      {/* Linhas conectivas horizontais que se movem */}
+      <div 
+        className="connection-line"
+        style={{ 
+          top: `${scrollProgress}%`,
+          transform: 'translateY(-50%)'
+        }}
+      />
     </div>
   )
 }

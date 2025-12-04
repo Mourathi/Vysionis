@@ -90,20 +90,29 @@
   .section {
     padding: 4rem 0;
   }
-  
-}
+
 .hero,
 .about,
 .projects,
 .services,
 .technologies,
 .contact,
-.footer,
-nav,
+.footer {
+  position: relative;
+  z-index: 10;
+}
+
+.about-card,
+.project-card,
+.service-card,
+.tech-card,
+.info-card,
+.contact-form,
+.btn,
 button,
 a,
-.card,
-.btn {
+h1, h2, h3, h4, h5, h6,
+p {
   position: relative;
-  z-index: 1;
+  z-index: 2;
 }
