@@ -1,0 +1,57 @@
+.scroll-progress-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100vh;
+  z-index: 9999;
+  pointer-events: none;
+  background: rgba(139, 63, 217, 0.1);
+}
+
+.scroll-progress-bar {
+  position: relative;
+  width: 100%;
+  background: var(--gradient);
+  box-shadow: 
+    0 0 10px rgba(139, 63, 217, 0.6),
+    0 0 20px rgba(139, 63, 217, 0.4);
+  transition: height 0.05s linear;
+  border-radius: 0 0 2px 2px;
+  overflow: hidden;
+}
+
+/* Animação suave para o brilho */
+.scroll-progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.3) 0%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%, 100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(100%);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .scroll-progress-container {
+    width: 3px;
+  }
+}
+
