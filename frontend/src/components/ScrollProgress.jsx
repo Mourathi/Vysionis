@@ -24,12 +24,56 @@ function ScrollProgress() {
     }
   }, [])
 
+  const progressPosition = scrollProgress
+
   return (
     <div className="scroll-progress-container">
+      {/* Linha central com gradiente */}
+      <div className="scroll-line" />
+      
+      {/* Barra de progresso que desce */}
       <div 
         className="scroll-progress-bar" 
-        style={{ height: `${scrollProgress}%` }}
-      />
+        style={{ 
+          height: `${scrollProgress}%`,
+          '--progress': `${scrollProgress}%`
+        } as React.CSSProperties}
+      >
+        {/* Núcleo de energia que acompanha o progresso */}
+        <div 
+          className="energy-core"
+          style={{ 
+            top: `${scrollProgress}%`,
+            transform: 'translate(-50%, -50%)'
+          }}
+        >
+          <div className="core-inner" />
+          <div className="core-outer" />
+          <div className="core-pulse" />
+        </div>
+      </div>
+
+      {/* Partículas flutuantes */}
+      <div className="particles">
+        {[...Array(20)].map((_, i) => (
+          <div 
+            key={i} 
+            className="particle"
+            style={{
+              '--delay': `${i * 0.2}s`,
+              '--duration': `${3 + (i % 3)}s`,
+              '--offset': `${(i % 5) * 20}px`
+            } as React.CSSProperties}
+          />
+        ))}
+      </div>
+
+      {/* Ondas de energia */}
+      <div className="energy-waves">
+        <div className="wave wave-1" />
+        <div className="wave wave-2" />
+        <div className="wave wave-3" />
+      </div>
     </div>
   )
 }
