@@ -14,13 +14,13 @@
 .scroll-side {
   position: absolute;
   top: 0;
-  width: 3px;
+  width: 4px;
   height: 100vh;
 }
 
 .scroll-left {
   left: 0;
-  opacity: 0.25;
+  opacity: 1;
 }
 
 .scroll-right {
@@ -38,17 +38,6 @@
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(139, 63, 217, 0.2) 20%,
-    rgba(139, 63, 217, 0.3) 50%,
-    rgba(139, 63, 217, 0.2) 80%,
-    transparent 100%
-  );
-}
-
-.scroll-right .side-line {
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
     rgba(139, 63, 217, 0.4) 20%,
     rgba(139, 63, 217, 0.6) 50%,
     rgba(139, 63, 217, 0.4) 80%,
@@ -62,22 +51,19 @@
   top: 0;
   left: 0;
   width: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(139, 63, 217, 0.3) 0%,
-    rgba(37, 99, 235, 0.3) 100%
-  );
-  transition: height 0.08s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: visible;
-}
-
-.side-progress-bright {
   background: var(--gradient);
   box-shadow: 
     0 0 10px rgba(139, 63, 217, 0.6),
     0 0 20px rgba(139, 63, 217, 0.4),
-    0 0 30px rgba(139, 63, 217, 0.2);
+    0 0 30px rgba(139, 63, 217, 0.2),
+    0 0 40px rgba(139, 63, 217, 0.1);
+  transition: height 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
   filter: blur(0.5px);
+}
+
+.side-progress-bright {
+  background: var(--gradient);
 }
 
 /* Brilho interno */
@@ -89,17 +75,6 @@
   height: 100%;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    transparent 30%,
-    transparent 70%,
-    rgba(139, 63, 217, 0.2) 100%
-  );
-  animation: glowFlow 3s ease-in-out infinite;
-}
-
-.progress-glow-bright {
-  background: linear-gradient(
-    180deg,
     rgba(255, 255, 255, 0.4) 0%,
     transparent 30%,
     transparent 70%,
@@ -108,71 +83,162 @@
   animation: glowFlowBright 2s ease-in-out infinite;
 }
 
-/* Núcleo de energia no lado direito */
-.energy-core-right {
+.progress-glow-bright {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.5) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(139, 63, 217, 0.7) 100%
+  );
+  animation: glowFlowBright 1.5s ease-in-out infinite;
+}
+
+/* Núcleo de energia - Unificado para ambos os lados */
+.energy-core {
   position: absolute;
   left: 50%;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   pointer-events: none;
 }
 
-.core-inner-right {
+.core-inner {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   background: var(--purple);
   border-radius: 50%;
   box-shadow: 
-    0 0 15px rgba(139, 63, 217, 1),
-    0 0 30px rgba(139, 63, 217, 0.8),
-    0 0 45px rgba(139, 63, 217, 0.5);
-  animation: pulseCoreRight 1.5s ease-in-out infinite;
+    0 0 20px rgba(139, 63, 217, 1),
+    0 0 40px rgba(139, 63, 217, 0.8),
+    0 0 60px rgba(139, 63, 217, 0.5),
+    0 0 80px rgba(139, 63, 217, 0.3);
+  animation: pulseCore 1.5s ease-in-out infinite;
 }
 
-.core-outer-right {
+.core-outer {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   border: 2px solid var(--purple);
   border-radius: 50%;
-  opacity: 0.7;
-  animation: rotateCoreRight 3s linear infinite;
+  opacity: 0.8;
+  animation: rotateCore 3s linear infinite;
 }
 
-.core-outer-right::before {
+.core-outer::before {
   content: '';
   position: absolute;
   top: -2px;
   left: 50%;
   transform: translateX(-50%);
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
   background: var(--blue);
   border-radius: 50%;
-  box-shadow: 0 0 10px rgba(37, 99, 235, 1);
+  box-shadow: 0 0 15px rgba(37, 99, 235, 1);
 }
 
-.core-pulse-right {
+.core-pulse {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 35px;
-  height: 35px;
-  border: 1.5px solid rgba(139, 63, 217, 0.5);
+  width: 40px;
+  height: 40px;
+  border: 2px solid rgba(139, 63, 217, 0.6);
   border-radius: 50%;
-  animation: expandPulseRight 2s ease-out infinite;
+  animation: expandPulse 2s ease-out infinite;
+}
+
+/* Sparkles ao redor do núcleo */
+.core-sparkles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+}
+
+.sparkle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  background: var(--purple);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(139, 63, 217, 1);
+  transform-origin: center center;
+  animation: sparkleRotate 3s linear infinite;
+  animation-delay: var(--delay, 0s);
+  transform: translate(-50%, -50%) rotate(var(--angle, 0deg)) translateY(-30px);
+}
+
+.sparkle::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  background: var(--blue);
+  box-shadow: 0 0 6px rgba(37, 99, 235, 0.8);
+  border-radius: 50%;
 }
 
 /* Partículas */
 .side-particles {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  height: 100%;
+  pointer-events: none;
+}
+
+.side-particles-bright {
+  width: 180px;
+}
+
+.side-particle {
+  position: absolute;
+  left: 50%;
+  width: 3px;
+  height: 3px;
+  background: var(--purple);
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: 
+    0 0 8px rgba(139, 63, 217, 0.8),
+    0 0 12px rgba(139, 63, 217, 0.5),
+    0 0 16px rgba(139, 63, 217, 0.3);
+  animation: floatSideParticle var(--duration, 4s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  transform: translateX(calc(-50% + var(--offset, 0px)));
+}
+
+.side-particle-bright {
+  width: 4px;
+  height: 4px;
+  box-shadow: 
+    0 0 10px rgba(139, 63, 217, 1),
+    0 0 15px rgba(139, 63, 217, 0.7),
+    0 0 20px rgba(139, 63, 217, 0.4);
+}
+
+/* Ondas de energia - Unificado */
+.energy-waves {
   position: absolute;
   top: 0;
   left: 50%;
@@ -182,42 +248,7 @@
   pointer-events: none;
 }
 
-.side-particles-bright {
-  width: 150px;
-}
-
-.side-particle {
-  position: absolute;
-  left: 50%;
-  width: 2px;
-  height: 2px;
-  background: var(--purple);
-  border-radius: 50%;
-  opacity: 0;
-  box-shadow: 0 0 4px rgba(139, 63, 217, 0.4);
-  animation: floatSideParticle var(--duration, 4s) ease-in-out infinite;
-  animation-delay: var(--delay, 0s);
-  transform: translateX(calc(-50% + var(--offset, 0px)));
-}
-
-.side-particle-bright {
-  width: 3px;
-  height: 3px;
-  box-shadow: 0 0 8px rgba(139, 63, 217, 0.8), 0 0 12px rgba(139, 63, 217, 0.5);
-}
-
-/* Ondas de energia no lado direito */
-.energy-waves-right {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 80px;
-  height: 100%;
-  pointer-events: none;
-}
-
-.wave-right {
+.wave {
   position: absolute;
   left: 50%;
   top: 0;
@@ -227,21 +258,57 @@
   background: linear-gradient(
     180deg,
     transparent 0%,
-    rgba(139, 63, 217, 0.4) 50%,
+    rgba(139, 63, 217, 0.5) 50%,
     transparent 100%
   );
   opacity: 0;
 }
 
-.wave-right.wave-1 {
-  animation: waveMoveRight 4s ease-in-out infinite;
+.wave.wave-1 {
+  animation: waveMove 4s ease-in-out infinite;
   filter: blur(1px);
 }
 
-.wave-right.wave-2 {
-  animation: waveMoveRight 4s ease-in-out infinite 2s;
+.wave.wave-2 {
+  animation: waveMove 4s ease-in-out infinite 1.5s;
   filter: blur(1.5px);
   width: 3px;
+}
+
+.wave.wave-3 {
+  animation: waveMove 4s ease-in-out infinite 3s;
+  filter: blur(2px);
+  width: 4px;
+}
+
+/* Linhas de conexão */
+.connection-lines {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 100%;
+  pointer-events: none;
+}
+
+.connection-line {
+  position: absolute;
+  left: 50%;
+  top: var(--progress, 0%);
+  transform: translate(-50%, -50%);
+  width: 2px;
+  height: 40px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(139, 63, 217, 0.6) 50%,
+    transparent 100%
+  );
+  box-shadow: 0 0 10px rgba(139, 63, 217, 0.4);
+  opacity: 0;
+  animation: connectionLinePulse 2s ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
 }
 
 /* Efeito granulado */
@@ -254,25 +321,157 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  opacity: 0.15;
+  opacity: 0.2;
   background-image: 
     repeating-linear-gradient(
       0deg,
       transparent,
       transparent 2px,
-      rgba(139, 63, 217, 0.03) 2px,
-      rgba(139, 63, 217, 0.03) 4px
+      rgba(139, 63, 217, 0.05) 2px,
+      rgba(139, 63, 217, 0.05) 4px
     ),
     repeating-linear-gradient(
       90deg,
       transparent,
       transparent 2px,
-      rgba(37, 99, 235, 0.03) 2px,
-      rgba(37, 99, 235, 0.03) 4px
+      rgba(37, 99, 235, 0.05) 2px,
+      rgba(37, 99, 235, 0.05) 4px
     );
   background-size: 4px 4px;
   mix-blend-mode: overlay;
   animation: grainMove 8s steps(10) infinite;
+}
+
+/* Efeito de profundidade */
+.depth-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    transparent 0%,
+    rgba(139, 63, 217, 0.03) 50%,
+    transparent 100%
+  );
+  opacity: 0.6;
+  animation: depthPulse 4s ease-in-out infinite;
+}
+
+/* Animações */
+@keyframes glowFlowBright {
+  0%, 100% {
+    opacity: 0.7;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(30px);
+  }
+}
+
+@keyframes pulseCore {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.9;
+  }
+}
+
+@keyframes rotateCore {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+@keyframes expandPulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(3);
+    opacity: 0;
+  }
+}
+
+@keyframes sparkleRotate {
+  0% {
+    transform: translate(-50%, -50%) rotate(var(--angle, 0deg)) translateY(-30px) rotate(0deg) scale(0.5);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(var(--angle, 0deg)) translateY(-30px) rotate(0deg) scale(1);
+  }
+  90% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(var(--angle, 0deg)) translateY(-30px) rotate(0deg) scale(1);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(calc(var(--angle, 0deg) + 360deg)) translateY(-30px) rotate(-360deg) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes floatSideParticle {
+  0% {
+    top: 0;
+    opacity: 0;
+    transform: translateX(calc(-50% + var(--offset, 0px))) translateY(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+    transform: translateX(calc(-50% + var(--offset, 0px))) translateY(-40px);
+  }
+}
+
+@keyframes waveMove {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+
+@keyframes connectionLinePulse {
+  0%, 100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scaleY(0.5);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scaleY(1);
+  }
 }
 
 @keyframes grainMove {
@@ -308,132 +507,49 @@
   }
 }
 
-/* Animações */
-@keyframes glowFlow {
+@keyframes depthPulse {
   0%, 100% {
-    opacity: 0.3;
-    transform: translateY(0);
+    opacity: 0.4;
+    transform: scale(1);
   }
   50% {
-    opacity: 0.5;
-    transform: translateY(30px);
+    opacity: 0.7;
+    transform: scale(1.1);
   }
 }
-
-@keyframes glowFlowBright {
-  0%, 100% {
-    opacity: 0.6;
-    transform: translateY(0);
-  }
-  50% {
-    opacity: 1;
-    transform: translateY(30px);
-  }
-}
-
-@keyframes pulseCoreRight {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.4);
-    opacity: 0.9;
-  }
-}
-
-@keyframes rotateCoreRight {
-  0% {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-@keyframes expandPulseRight {
-  0% {
-    transform: translate(-50%, -50%) scale(0.8);
-    opacity: 1;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(2.5);
-    opacity: 0;
-  }
-}
-
-@keyframes floatSideParticle {
-  0% {
-    top: 0;
-    opacity: 0;
-    transform: translateX(calc(-50% + var(--offset, 0px))) translateY(0);
-  }
-  10% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    top: 100%;
-    opacity: 0;
-    transform: translateX(calc(-50% + var(--offset, 0px))) translateY(-30px);
-  }
-}
-
-@keyframes waveMoveRight {
-  0% {
-    top: 0;
-    opacity: 0;
-  }
-  10% {
-    opacity: 0.8;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  90% {
-    opacity: 0.8;
-  }
-  100% {
-    top: 100%;
-    opacity: 0;
-  }
-}
-
 
 @media (max-width: 768px) {
   .scroll-side {
-    width: 2px;
+    width: 3px;
   }
   
-  .scroll-left {
-    opacity: 0.2;
+  .energy-core {
+    width: 22px;
+    height: 22px;
   }
   
-  .energy-core-right {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .core-inner-right {
-    width: 6px;
-    height: 6px;
+  .core-inner {
+    width: 8px;
+    height: 8px;
   }
   
   .side-particles {
-    width: 60px;
+    width: 100px;
   }
   
   .side-particles-bright {
+    width: 120px;
+  }
+  
+  .energy-waves {
+    width: 70px;
+  }
+  
+  .connection-lines {
     width: 80px;
   }
   
-  .energy-waves-right {
-    width: 50px;
-  }
-  
   .grain-overlay {
-    opacity: 0.1;
+    opacity: 0.15;
   }
 }
