@@ -1,18 +1,15 @@
-import React, { lazy } from 'react'
+import React from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
+import About from './components/About'
+import Projects from './components/Projects'
+import Services from './components/Services'
+import Technologies from './components/Technologies'
+import Contact from './components/Contact'
+import Footer from './components/Footer'
 import ScrollProgress from './components/ScrollProgress'
-import LazyWrapper from './components/LazyWrapper'
-import LoadingSpinner from './components/LoadingSpinner'
+import ScrollAnimation from './components/ScrollAnimation'
 import './App.css'
-
-// Lazy loading dos componentes - code splitting
-const About = lazy(() => import('./components/About'))
-const Projects = lazy(() => import('./components/Projects'))
-const Services = lazy(() => import('./components/Services'))
-const Technologies = lazy(() => import('./components/Technologies'))
-const Contact = lazy(() => import('./components/Contact'))
-const Footer = lazy(() => import('./components/Footer'))
 
 function App() {
   return (
@@ -21,29 +18,29 @@ function App() {
       <Header />
       <Hero />
       
-      <LazyWrapper fallback={<LoadingSpinner />}>
+      <ScrollAnimation delay={0}>
         <About />
-      </LazyWrapper>
+      </ScrollAnimation>
       
-      <LazyWrapper fallback={<LoadingSpinner />}>
+      <ScrollAnimation delay={100}>
         <Projects />
-      </LazyWrapper>
+      </ScrollAnimation>
       
-      <LazyWrapper fallback={<LoadingSpinner />}>
+      <ScrollAnimation delay={200}>
         <Services />
-      </LazyWrapper>
+      </ScrollAnimation>
       
-      <LazyWrapper fallback={<LoadingSpinner />}>
+      <ScrollAnimation delay={300}>
         <Technologies />
-      </LazyWrapper>
+      </ScrollAnimation>
       
-      <LazyWrapper fallback={<LoadingSpinner />}>
+      <ScrollAnimation delay={400}>
         <Contact />
-      </LazyWrapper>
+      </ScrollAnimation>
       
-      <LazyWrapper fallback={<LoadingSpinner />}>
+      <ScrollAnimation delay={500}>
         <Footer />
-      </LazyWrapper>
+      </ScrollAnimation>
     </div>
   )
 }
