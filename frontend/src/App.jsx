@@ -1,8 +1,8 @@
-import React, { Suspense, lazy } from 'react'
+import React, { lazy } from 'react'
 import Header from './components/Header'
 import Hero from './components/Hero'
 import ScrollProgress from './components/ScrollProgress'
-import LazySection from './components/LazySection'
+import LazyWrapper from './components/LazyWrapper'
 import LoadingSpinner from './components/LoadingSpinner'
 import './App.css'
 
@@ -21,41 +21,29 @@ function App() {
       <Header />
       <Hero />
       
-      <LazySection fallback={<LoadingSpinner />}>
-        <Suspense fallback={<LoadingSpinner />}>
-          <About />
-        </Suspense>
-      </LazySection>
+      <LazyWrapper fallback={<LoadingSpinner />}>
+        <About />
+      </LazyWrapper>
       
-      <LazySection fallback={<LoadingSpinner />}>
-        <Suspense fallback={<LoadingSpinner />}>
-          <Projects />
-        </Suspense>
-      </LazySection>
+      <LazyWrapper fallback={<LoadingSpinner />}>
+        <Projects />
+      </LazyWrapper>
       
-      <LazySection fallback={<LoadingSpinner />}>
-        <Suspense fallback={<LoadingSpinner />}>
-          <Services />
-        </Suspense>
-      </LazySection>
+      <LazyWrapper fallback={<LoadingSpinner />}>
+        <Services />
+      </LazyWrapper>
       
-      <LazySection fallback={<LoadingSpinner />}>
-        <Suspense fallback={<LoadingSpinner />}>
-          <Technologies />
-        </Suspense>
-      </LazySection>
+      <LazyWrapper fallback={<LoadingSpinner />}>
+        <Technologies />
+      </LazyWrapper>
       
-      <LazySection fallback={<LoadingSpinner />}>
-        <Suspense fallback={<LoadingSpinner />}>
-          <Contact />
-        </Suspense>
-      </LazySection>
+      <LazyWrapper fallback={<LoadingSpinner />}>
+        <Contact />
+      </LazyWrapper>
       
-      <LazySection fallback={<LoadingSpinner />}>
-        <Suspense fallback={<LoadingSpinner />}>
-          <Footer />
-        </Suspense>
-      </LazySection>
+      <LazyWrapper fallback={<LoadingSpinner />}>
+        <Footer />
+      </LazyWrapper>
     </div>
   )
 }

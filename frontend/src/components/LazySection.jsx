@@ -1,27 +1,33 @@
 import React, { useState, useEffect, useRef } from 'react'
 import './LazySection.css'
 
-function LazySection({ children, fallback = null, rootMargin = '150px' }) {
+function LazySection({ children, fallback = null }) {
+  const [shouldLoad, setShouldLoad] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
-  const [hasLoaded, setHasLoaded] = useState(false)
   const sectionRef = useRef(null)
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !hasLoaded) {
-          // Pequeno delay para suavizar a transição
+        // Calcula quando o elemento está em aproximadamente 2/6 (33%) da viewport
+        const viewportHeight = window.innerHeight
+        const elementTop = entry.boundingClientRect.top
+        const elementVisible = viewportHeight - elementTop
+        
+        // Só carrega quando o elemento está visível em pelo menos 33% da tela
+        if (entry.isIntersecting && elementVisible >= viewportHeight * 0.33 && !shouldLoad) {
+          setShouldLoad(true)
+          // Pequeno delay para garantir que está realmente visível
           setTimeout(() => {
             setIsVisible(true)
-            setHasLoaded(true)
-          }, 50)
-          // Desconectar após carregar para melhor performance
+          }, 100)
           observer.disconnect()
         }
       },
       {
-        rootMargin,
-        threshold: 0.01
+        // Sem rootMargin para detectar exatamente quando entra na viewport
+        rootMargin: '0px',
+        threshold: [0, 0.1, 0.2, 0.33]
       }
     )
 
@@ -35,19 +41,21 @@ function LazySection({ children, fallback = null, rootMargin = '150px' }) {
       }
       observer.disconnect()
     }
-  }, [hasLoaded, rootMargin])
+  }, [shouldLoad])
 
   return (
     <div 
       ref={sectionRef} 
-      className={`lazy-section ${hasLoaded ? 'loaded' : ''}`}
+      className={`lazy-section ${isVisible ? 'visible' : ''}`}
     >
-      {isVisible ? (
-        <div className="lazy-content">
+      {shouldLoad ? (
+        <div className={`lazy-content ${isVisible ? 'show' : ''}`}>
           {children}
         </div>
       ) : (
-        fallback
+        <div className="lazy-placeholder">
+          {fallback}
+        </div>
       )}
     </div>
   )
