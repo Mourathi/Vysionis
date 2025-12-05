@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './Contact.css'
+import { EmailIcon, PhoneIcon, LocationIcon } from './Icons'
 
 function Contact() {
   const [formData, setFormData] = useState({
@@ -34,19 +35,25 @@ function Contact() {
         <div className="contact-content">
           <div className="contact-info">
             <div className="info-card">
-              <div className="info-icon">📧</div>
+              <div className="info-icon">
+                <EmailIcon className="icon-svg" />
+              </div>
               <h3>Email</h3>
               <p>contato@vysionis.com.br</p>
             </div>
             
             <div className="info-card">
-              <div className="info-icon">📱</div>
+              <div className="info-icon">
+                <PhoneIcon className="icon-svg" />
+              </div>
               <h3>WhatsApp</h3>
               <p>+55 (11) 99999-9999</p>
             </div>
             
             <div className="info-card">
-              <div className="info-icon">📍</div>
+              <div className="info-icon">
+                <LocationIcon className="icon-svg" />
+              </div>
               <h3>Localização</h3>
               <p>São Paulo, SP - Brasil</p>
             </div>

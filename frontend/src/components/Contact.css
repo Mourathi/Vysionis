@@ -24,8 +24,23 @@
 }
 
 .info-icon {
-  font-size: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 1rem;
+  transition: all 0.3s ease;
+}
+
+.info-icon .icon-svg {
+  width: 48px;
+  height: 48px;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 8px rgba(139, 63, 217, 0.3));
+}
+
+.info-card:hover .info-icon .icon-svg {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 15px rgba(139, 63, 217, 0.5));
 }
 
 .info-card h3 {
