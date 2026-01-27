@@ -12,7 +12,7 @@ function Projects() {
     {
       title: 'Sistema Corporativo',
       description: 'Soluções empresariais customizadas para otimização de processos internos',
-      tags: ['FastAPI', 'Flutter', 'MongoDB'],
+      tags: ['FastAPI', 'React', 'Supabase'],
       status: 'Planejamento'
     },
     {

@@ -47,7 +47,7 @@ function Contact() {
                 <PhoneIcon className="icon-svg" />
               </div>
               <h3>WhatsApp</h3>
-              <p>+55 (11) 99999-9999</p>
+              <p>+55 (11) 96580-4957</p>
             </div>
             
             <div className="info-card">
