@@ -1,0 +1,26 @@
+/**
+ * Paleta de cores — Vysionis
+ * Identidade Visual
+ */
+
+:root {
+  /* Cores principais */
+  --purple: #8B3FD9;
+  --blue: #2563EB;
+  
+  /* Fundos */
+  --dark-bg: #0a0a0f;
+  --card-bg: #131318;
+  
+  /* Texto */
+  --text-gray: #9ca3af;
+  --text-primary: #ffffff;
+  
+  /* Gradiente */
+  --gradient: linear-gradient(135deg, #8B3FD9 0%, #2563EB 100%);
+  
+  /* Efeitos */
+  --purple-glow: rgba(139, 63, 217, 0.6);
+  --purple-border: rgba(139, 63, 217, 0.2);
+  --purple-shadow: rgba(139, 63, 217, 0.3);
+}
