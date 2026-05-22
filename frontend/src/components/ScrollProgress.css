@@ -14,7 +14,7 @@
 .scroll-side {
   position: absolute;
   top: 0;
-  width: 4px;
+  width: 5px;
   height: 100vh;
 }
 
@@ -51,19 +51,82 @@
   top: 0;
   left: 0;
   width: 100%;
+  height: 0%;
   background: var(--gradient);
+  border-radius: 0 999px 999px 0;
   box-shadow: 
     0 0 10px rgba(139, 63, 217, 0.6),
-    0 0 20px rgba(139, 63, 217, 0.4),
-    0 0 30px rgba(139, 63, 217, 0.2),
-    0 0 40px rgba(139, 63, 217, 0.1);
-  transition: height 0.08s cubic-bezier(0.4, 0, 0.2, 1);
+    0 0 20px rgba(139, 63, 217, 0.35),
+    0 0 34px rgba(37, 99, 235, 0.2),
+    0 0 48px rgba(139, 63, 217, 0.12);
   overflow: visible;
-  filter: blur(0.5px);
+}
+
+.scroll-right .side-progress {
+  border-radius: 999px 0 0 999px;
 }
 
 .side-progress-bright {
-  background: var(--gradient);
+  background: linear-gradient(
+    178deg,
+    rgba(167, 85, 255, 0.95),
+    rgba(92, 60, 255, 1) 45%,
+    rgba(37, 99, 235, 0.94)
+  );
+}
+
+.progress-sheen {
+  position: absolute;
+  inset: -4px -8px -4px -8px;
+  pointer-events: none;
+  mix-blend-mode: soft-light;
+  border-radius: inherit;
+  background: linear-gradient(
+    138deg,
+    transparent 37%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 61%
+  );
+  opacity: 0.28;
+  animation: barSheen 6.5s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+.progress-sheen-reverse {
+  animation-delay: -2.75s;
+  animation-direction: reverse;
+}
+
+@keyframes barSheen {
+  0%,
+  10% {
+    transform: translateY(-120%);
+    opacity: 0;
+  }
+  22% {
+    opacity: 0.55;
+  }
+  48% {
+    transform: translateY(18%);
+    opacity: 0.22;
+  }
+  92% {
+    opacity: 0;
+    transform: translateY(132%);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.side-progress-reverse {
+  box-shadow: 
+    0 0 10px rgba(37, 99, 235, 0.54),
+    0 0 22px rgba(139, 63, 217, 0.32),
+    0 0 36px rgba(37, 99, 235, 0.18);
+}
+
+.side-progress-reverse .progress-sheen {
+  opacity: 0.24;
 }
 
 /* Brilho interno */
@@ -87,11 +150,11 @@
   background: linear-gradient(
     180deg,
     rgba(255, 255, 255, 0.5) 0%,
-    transparent 30%,
-    transparent 70%,
-    rgba(139, 63, 217, 0.7) 100%
+    transparent 28%,
+    transparent 73%,
+    rgba(147, 90, 255, 0.65) 100%
   );
-  animation: glowFlowBright 1.5s ease-in-out infinite;
+  animation: glowFlowBright 2.05s cubic-bezier(0.45, 0, 0.55, 1) infinite;
 }
 
 /* Núcleo de energia - Unificado para ambos os lados */
@@ -221,11 +284,12 @@
   opacity: 0;
   box-shadow: 
     0 0 8px rgba(139, 63, 217, 0.8),
-    0 0 12px rgba(139, 63, 217, 0.5),
-    0 0 16px rgba(139, 63, 217, 0.3);
-  animation: floatSideParticle var(--duration, 4s) ease-in-out infinite;
+    0 0 14px rgba(37, 99, 235, 0.5),
+    0 0 18px rgba(139, 63, 217, 0.3);
+  animation: floatSideParticle var(--duration, 4s) cubic-bezier(0.45, 0, 0.55, 1) infinite;
   animation-delay: var(--delay, 0s);
-  transform: translateX(calc(-50% + var(--offset, 0px)));
+  transform: translate3d(-50%, 0, 0)
+    translate3d(calc((var(--offset, 0px) + 18px) * var(--sx, 1)), 0, 0);
 }
 
 .side-particle-bright {
@@ -248,6 +312,19 @@
   pointer-events: none;
 }
 
+.energy-waves-right {
+  transform: translateX(-50%) scaleX(-1);
+}
+
+.energy-waves-left .wave,
+.energy-waves-right .wave {
+  animation-name: waveMoveInward;
+}
+
+.energy-waves-right .wave-1 {
+  animation-delay: -0.5s;
+}
+
 .wave {
   position: absolute;
   left: 50%;
@@ -265,18 +342,26 @@
 }
 
 .wave.wave-1 {
-  animation: waveMove 4s ease-in-out infinite;
+  animation-duration: 4.4s;
+  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  animation-iteration-count: infinite;
   filter: blur(1px);
 }
 
 .wave.wave-2 {
-  animation: waveMove 4s ease-in-out infinite 1.5s;
-  filter: blur(1.5px);
+  animation-duration: 4.9s;
+  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  animation-iteration-count: infinite;
+  animation-delay: -1.2s;
+  filter: blur(1.35px);
   width: 3px;
 }
 
 .wave.wave-3 {
-  animation: waveMove 4s ease-in-out infinite 3s;
+  animation-duration: 5.8s;
+  animation-timing-function: cubic-bezier(0.45, 0, 0.55, 1);
+  animation-iteration-count: infinite;
+  animation-delay: -2.85s;
   filter: blur(2px);
   width: 4px;
 }
@@ -290,12 +375,13 @@
   width: 120px;
   height: 100%;
   pointer-events: none;
+  --trail: 0%;
 }
 
 .connection-line {
   position: absolute;
   left: 50%;
-  top: var(--progress, 0%);
+  top: var(--trail, 0%);
   transform: translate(-50%, -50%);
   width: 2px;
   height: 40px;
@@ -426,40 +512,44 @@
 
 @keyframes floatSideParticle {
   0% {
-    top: 0;
+    top: -1%;
     opacity: 0;
-    transform: translateX(calc(-50% + var(--offset, 0px))) translateY(0);
+    transform: translate3d(-50%, 0, 0)
+      translate3d(calc((var(--offset, 0px) + 18px) * var(--sx, 1)), 0, 0);
   }
-  10% {
-    opacity: 1;
+  12% {
+    opacity: 0.94;
   }
-  90% {
-    opacity: 1;
+  88% {
+    opacity: 0.72;
   }
   100% {
     top: 100%;
     opacity: 0;
-    transform: translateX(calc(-50% + var(--offset, 0px))) translateY(-40px);
+    transform: translate3d(-50%, -40px, 0)
+      translate3d(calc((var(--offset, 0px) - 24px) * var(--sx, 1)), 0, 0);
   }
 }
 
-@keyframes waveMove {
+@keyframes waveMoveInward {
   0% {
-    top: 0;
+    top: -2%;
     opacity: 0;
+    transform: translateX(calc(-50% + 3px));
   }
-  10% {
-    opacity: 0.9;
+  12% {
+    opacity: 0.92;
   }
-  50% {
-    opacity: 0.6;
+  48% {
+    opacity: 0.55;
   }
-  90% {
-    opacity: 0.9;
+  88% {
+    opacity: 0.78;
   }
   100% {
-    top: 100%;
+    top: 103%;
     opacity: 0;
+    transform: translateX(calc(-50% + 16px));
   }
 }
 
@@ -515,6 +605,44 @@
   50% {
     opacity: 0.7;
     transform: scale(1.1);
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-sheen,
+  .progress-glow {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .side-particle {
+    animation: none !important;
+    opacity: 0.38 !important;
+  }
+
+  .wave {
+    animation: none !important;
+    opacity: 0.28 !important;
+    top: 45% !important;
+  }
+
+  .sparkle {
+    animation: none !important;
+    opacity: 0.45 !important;
+  }
+
+  .core-inner,
+  .core-outer,
+  .core-pulse,
+  .grain-overlay,
+  .depth-overlay {
+    animation: none !important;
+  }
+
+  .connection-line {
+    animation: none !important;
+    opacity: 0.38 !important;
   }
 }
 

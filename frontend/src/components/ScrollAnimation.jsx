@@ -1,11 +1,24 @@
 import React, { useState, useEffect, useRef } from 'react'
 import './ScrollAnimation.css'
 
-function ScrollAnimation({ children, delay = 0 }) {
-  const [isVisible, setIsVisible] = useState(false)
+const prefersReducedMotion = () =>
+  typeof window !== 'undefined' &&
+  typeof window.matchMedia !== 'undefined' &&
+  window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/** Anima entrada ao entrar na viewport. `variant`: up | left | right. */
+function ScrollAnimation({ children, delay = 0, variant = 'up' }) {
+  const [isVisible, setIsVisible] = useState(() =>
+    typeof window !== 'undefined' ? prefersReducedMotion() : false
+  )
   const elementRef = useRef(null)
 
   useEffect(() => {
+    if (prefersReducedMotion()) {
+      setIsVisible(true)
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -16,8 +29,8 @@ function ScrollAnimation({ children, delay = 0 }) {
         }
       },
       {
-        threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        threshold: 0.08,
+        rootMargin: '0px 0px -6% 0px'
       }
     )
 
@@ -26,9 +39,6 @@ function ScrollAnimation({ children, delay = 0 }) {
     }
 
     return () => {
-      if (elementRef.current) {
-        observer.unobserve(elementRef.current)
-      }
       observer.disconnect()
     }
   }, [delay])
@@ -36,7 +46,7 @@ function ScrollAnimation({ children, delay = 0 }) {
   return (
     <div 
       ref={elementRef} 
-      className={`scroll-animation ${isVisible ? 'visible' : ''}`}
+      className={`scroll-animation slide-${variant} ${isVisible ? 'visible' : ''}`}
     >
       {children}
     </div>

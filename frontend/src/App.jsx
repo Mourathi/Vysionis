@@ -18,27 +18,27 @@ function App() {
       <Header />
       <Hero />
       
-      <ScrollAnimation delay={0}>
+      <ScrollAnimation delay={0} variant="left">
         <About />
       </ScrollAnimation>
-      
-      <ScrollAnimation delay={100}>
+
+      <ScrollAnimation delay={100} variant="right">
         <Projects />
       </ScrollAnimation>
-      
-      <ScrollAnimation delay={200}>
+
+      <ScrollAnimation delay={200} variant="left">
         <Services />
       </ScrollAnimation>
-      
-      <ScrollAnimation delay={300}>
+
+      <ScrollAnimation delay={300} variant="right">
         <Technologies />
       </ScrollAnimation>
-      
-      <ScrollAnimation delay={400}>
+
+      <ScrollAnimation delay={400} variant="left">
         <Contact />
       </ScrollAnimation>
-      
-      <ScrollAnimation delay={500}>
+
+      <ScrollAnimation delay={500} variant="right">
         <Footer />
       </ScrollAnimation>
     </div>

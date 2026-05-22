@@ -9,6 +9,8 @@
 
 .app {
   min-height: 100vh;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 /* Utility Classes */
@@ -86,10 +88,11 @@
   .section-title {
     font-size: 2rem;
   }
-  
+
   .section {
     padding: 4rem 0;
   }
+}
 
 .hero,
 .about,

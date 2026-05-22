@@ -15,9 +15,24 @@ function Hero() {
             <defs>
               <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                 <stop offset="0%" stopColor="#8B3FD9" />
+                <stop offset="55%" stopColor="#6366F1" />
                 <stop offset="100%" stopColor="#2563EB" />
               </linearGradient>
             </defs>
+
+            {/* Anel orbital sutil atrás dos raios */}
+            <circle
+              cx="100"
+              cy="100"
+              r="42"
+              fill="none"
+              stroke="url(#logoGradient)"
+              strokeWidth="1.25"
+              strokeDasharray="3 14"
+              strokeLinecap="round"
+              opacity={0.45}
+              className="logo-orbit-ring"
+            />
             
             {/* Linhas radiantes do V */}
             {[...Array(24)].map((_, i) => {
@@ -39,9 +54,9 @@ function Hero() {
                   stroke="url(#logoGradient)"
                   strokeWidth="8"
                   strokeLinecap="round"
-                  opacity={0.8}
+                  opacity={0.85}
                   className="logo-line"
-                  style={{ animationDelay: `${i * 0.05}s` }}
+                  style={{ '--ray-i': i }}
                 />
               );
             })}
