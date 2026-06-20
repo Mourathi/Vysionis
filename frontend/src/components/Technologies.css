@@ -1,54 +1,40 @@
 .technologies {
-  background: linear-gradient(180deg, #0f0f14 0%, var(--dark-bg) 100%);
+  background: var(--bg-alt);
 }
 
 .tech-grid {
+  list-style: none;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  max-width: 1000px;
-  margin: 0 auto;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  gap: 0.75rem;
 }
 
 .tech-card {
-  background: var(--card-bg);
-  padding: 2rem;
-  border-radius: 1rem;
-  border: 1px solid rgba(139, 63, 217, 0.1);
-  transition: all 0.3s ease;
-  text-align: center;
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  transition: border-color 0.22s ease, background-color 0.22s ease;
 }
 
 .tech-card:hover {
-  border-color: var(--purple);
-  transform: scale(1.05);
-  box-shadow: 0 10px 30px rgba(139, 63, 217, 0.3);
+  border-color: var(--border-strong);
+  background: var(--surface-2);
 }
 
 .tech-name {
-  font-size: 1.3rem;
-  font-weight: 700;
-  color: white;
-  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .tech-category {
-  font-size: 0.9rem;
-  color: var(--text-gray);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  color: var(--text-faint);
 }
-
-@media (max-width: 968px) {
-  .tech-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 640px) {
-  .tech-grid {
-    grid-template-columns: 1fr;
-  }
-}
-

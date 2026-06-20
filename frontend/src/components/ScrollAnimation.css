@@ -1,29 +1,15 @@
 .scroll-animation {
-  --slide-shift: clamp(28px, 5vw, 52px);
-
   opacity: 0;
+  transform: translateY(18px);
   will-change: opacity, transform;
   transition-property: opacity, transform;
-  transition-duration: 0.78s, 0.86s;
+  transition-duration: 0.6s;
   transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.slide-up:not(.visible) {
-  transform: translate3d(0, calc(var(--slide-shift) * 1.05), 0) scale(0.985);
-}
-
-.slide-left:not(.visible) {
-  transform: translate3d(calc(var(--slide-shift) * -1), calc(var(--slide-shift) * 0.28), 0)
-    scale(0.986);
-}
-
-.slide-right:not(.visible) {
-  transform: translate3d(var(--slide-shift), calc(var(--slide-shift) * 0.28), 0) scale(0.986);
 }
 
 .scroll-animation.visible {
   opacity: 1;
-  transform: translate3d(0, 0, 0) scale(1);
+  transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -31,7 +17,6 @@
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
-    scale: unset;
     will-change: auto;
   }
 }

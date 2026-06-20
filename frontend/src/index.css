@@ -5,12 +5,11 @@
 }
 
 :root {
-  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-sans, 'Inter', system-ui, sans-serif);
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #0a0a0f;
+  color: var(--text);
+  background-color: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -18,7 +17,9 @@
 }
 
 html {
-  overflow-x: hidden;
+  /* clip corta o transbordo horizontal SEM criar um contêiner de rolagem
+     (hidden faria o overflow-y virar "auto", gerando scroll duplo). */
+  overflow-x: clip;
 }
 
 body {
@@ -26,15 +27,8 @@ body {
   min-width: 320px;
   max-width: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
-  background-color: #0a0a0f;
-  color: white;
-}
-
-#root {
-  width: 100%;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
+  overflow-x: clip;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }

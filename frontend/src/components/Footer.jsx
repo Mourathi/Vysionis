@@ -7,8 +7,8 @@ function Footer() {
       <div className="container">
         <div className="footer-content">
           <div className="footer-brand">
-            <h3 className="gradient-text">VYSIONIS</h3>
-            <p>Desenvolvendo o futuro, linha por linha.</p>
+            <h3>VYSIONIS</h3>
+            <p>Software sob medida para empresas. São Paulo, Brasil.</p>
           </div>
           
           <div className="footer-links">
@@ -22,7 +22,7 @@ function Footer() {
             <div className="footer-column">
               <h4>Contato</h4>
               <a href="mailto:contato@vysionis.com.br">Email</a>
-              <a href="https://wa.me/5511999999999">WhatsApp</a>
+              <a href="https://wa.me/5511965804957" target="_blank" rel="noopener noreferrer">WhatsApp</a>
               <a href="#contact">Formulário</a>
             </div>
             

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import './Header.css'
+import ThemeToggle from './ThemeToggle'
 
 function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -56,11 +57,14 @@ function Header() {
           <a href="#contact" onClick={() => setIsMenuOpen(false)} className="nav-cta">Contato</a>
         </nav>
 
-        <button className="menu-toggle" onClick={toggleMenu} aria-label="Toggle menu">
-          <span className={isMenuOpen ? 'open' : ''}></span>
-          <span className={isMenuOpen ? 'open' : ''}></span>
-          <span className={isMenuOpen ? 'open' : ''}></span>
-        </button>
+        <div className="header-actions">
+          <ThemeToggle />
+          <button className="menu-toggle" onClick={toggleMenu} aria-label="Abrir menu">
+            <span className={isMenuOpen ? 'open' : ''}></span>
+            <span className={isMenuOpen ? 'open' : ''}></span>
+            <span className={isMenuOpen ? 'open' : ''}></span>
+          </button>
+        </div>
       </div>
     </header>
   )

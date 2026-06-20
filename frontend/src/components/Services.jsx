@@ -7,54 +7,62 @@ function Services() {
     {
       icon: WebIcon,
       title: 'Desenvolvimento Web',
-      description: 'Aplicações web modernas, responsivas e de alta performance usando React, Vue.js e tecnologias de ponta'
+      description: 'Aplicações web rápidas e responsivas com React e tecnologias modernas.',
     },
     {
       icon: MobileIcon,
       title: 'Aplicativos Mobile',
-      description: 'Apps nativos e cross-platform com Flutter e React Native para iOS e Android'
+      description: 'Apps nativos e cross-platform com Flutter e React Native, para iOS e Android.',
     },
     {
       icon: ApiIcon,
-      title: 'APIs e Backend',
-      description: 'APIs RESTful robustas e escaláveis com Python, FastAPI e Node.js'
+      title: 'APIs e Back-end',
+      description: 'APIs robustas e escaláveis com Python, FastAPI e Node.js.',
     },
     {
       icon: DatabaseIcon,
       title: 'Banco de Dados',
-      description: 'Modelagem e otimização de bancos SQL e NoSQL para máxima eficiência'
+      description: 'Modelagem e otimização de bancos SQL e NoSQL para máxima eficiência.',
     },
     {
       icon: CloudIcon,
       title: 'Cloud & DevOps',
-      description: 'Deploy, CI/CD e infraestrutura em nuvem (AWS, Azure, Google Cloud)'
+      description: 'Deploy, CI/CD e infraestrutura em nuvem na AWS, Azure e Google Cloud.',
     },
     {
       icon: DesignIcon,
       title: 'UI/UX Design',
-      description: 'Interfaces intuitivas e designs modernos focados em experiência do usuário'
-    }
+      description: 'Interfaces claras e objetivas, focadas na experiência de quem usa.',
+    },
   ]
 
   return (
     <section id="services" className="section services">
       <div className="container">
-        <h2 className="section-title">Nossos Serviços</h2>
-        <p className="section-subtitle">
-          Oferecemos soluções completas de desenvolvimento de software
-        </p>
-        
+        <div className="section-head">
+          <span className="section-index">
+            <span className="section-index-num">03</span>
+            <span className="section-index-label">Serviços</span>
+          </span>
+          <div>
+            <h2 className="section-title">O que fazemos.</h2>
+            <p className="section-subtitle">
+              Do design à infraestrutura: cobrimos todo o ciclo de desenvolvimento de um sistema.
+            </p>
+          </div>
+        </div>
+
         <div className="services-grid">
           {services.map((service, index) => {
             const IconComponent = service.icon
             return (
-              <div key={index} className="service-card">
-                <div className="service-icon">
+              <article key={index} className="service-card">
+                <span className="service-icon">
                   <IconComponent className="icon-svg" />
-                </div>
+                </span>
                 <h3>{service.title}</h3>
                 <p>{service.description}</p>
-              </div>
+              </article>
             )
           })}
         </div>

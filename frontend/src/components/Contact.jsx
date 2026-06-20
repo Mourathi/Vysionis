@@ -38,14 +38,18 @@ function Contact() {
 
   return (
     <section id="contact" className="section contact">
-      <div className="contact-bg" aria-hidden />
       <div className="container contact-inner">
-        <div className="contact-header">
-          <p className="contact-eyebrow">Fale com a gente</p>
-          <h2 className="section-title contact-title">Entre em contato</h2>
-          <p className="section-subtitle contact-subtitle">
-            Orçamento, dúvidas ou parcerias — respondemos em até um dia útil.
-          </p>
+        <div className="section-head">
+          <span className="section-index">
+            <span className="section-index-num">05</span>
+            <span className="section-index-label">Contato</span>
+          </span>
+          <div>
+            <h2 className="section-title">Vamos conversar sobre o seu projeto.</h2>
+            <p className="section-subtitle">
+              Orçamento, dúvidas ou parcerias — respondemos em até um dia útil.
+            </p>
+          </div>
         </div>
 
         <div className="contact-content">
@@ -106,8 +110,6 @@ function Contact() {
           </div>
 
           <div className="contact-form-shell">
-            <div className="contact-form-glow" aria-hidden />
-
             <div className="contact-form-card">
               <h3 className="contact-form-heading">Envie uma mensagem</h3>
               <p className="contact-form-hint">
