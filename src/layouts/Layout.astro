@@ -99,7 +99,7 @@ const jsonLd = {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
@@ -109,9 +109,9 @@ const jsonLd = {
     <!-- Sem JS: garante que o conteúdo apareça (não fica preso na animação de entrada) -->
     <noscript>
       <style>
-        .scroll-animation {
+        .scroll-animation .tile {
           opacity: 1 !important;
-          transform: none !important;
+          animation: none !important;
         }
       </style>
     </noscript>
@@ -119,34 +119,40 @@ const jsonLd = {
   <body>
     <slot />
 
-    <!-- Animação de entrada ao rolar (reveal). Substitui o wrapper React por 1 observer leve. -->
     <script>
-      const reveal = () => {
-        const els = Array.from(document.querySelectorAll('[data-reveal]'))
-        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      import Lenis from 'lenis'
+      import 'lenis/dist/lenis.css'
 
-        if (reduce || !('IntersectionObserver' in window)) {
-          els.forEach((el) => el.classList.add('visible'))
-          return
-        }
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+      // Rolagem com inércia (mesma sensação do site de referência). Os links "#..."
+      // param logo abaixo do header flutuante.
+      if (!reduce) {
+        const header = document.querySelector('.header')
+        const offset = header ? -(header.getBoundingClientRect().bottom + 8) : 0
+        new Lenis({ autoRaf: true, anchors: { offset }, lerp: 0.09 })
+      }
+
+      // Entrada dos blocos para navegadores sem animação guiada por rolagem
+      // (onde há suporte, o CSS cuida disso e esta classe não muda nada).
+      const els = Array.from(document.querySelectorAll('[data-reveal]'))
+
+      if (reduce || !('IntersectionObserver' in window)) {
+        els.forEach((el) => el.classList.add('visible'))
+      } else {
         const io = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
               if (entry.isIntersecting) {
-                const delay = Number(entry.target.dataset.delay) || 0
-                window.setTimeout(() => entry.target.classList.add('visible'), delay)
+                entry.target.classList.add('visible')
                 io.unobserve(entry.target)
               }
             }
           },
-          { threshold: 0.08, rootMargin: '0px 0px -6% 0px' }
+          { threshold: 0.05, rootMargin: '0px 0px -8% 0px' }
         )
-
         els.forEach((el) => io.observe(el))
       }
-
-      reveal()
     </script>
   </body>
 </html>

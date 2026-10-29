@@ -1,42 +1,69 @@
 import React from 'react'
 import './Footer.css'
 
+const columns = [
+  {
+    title: 'Empresa',
+    links: [
+      { label: 'Sobre', href: '#about' },
+      { label: 'Projetos', href: '#projects' },
+      { label: 'Serviços', href: '#services' },
+    ],
+  },
+  {
+    title: 'Contato',
+    links: [
+      { label: 'Email', href: 'mailto:contato@vysionis.com.br' },
+      { label: 'WhatsApp', href: 'https://wa.me/5511965804957', external: true },
+      { label: 'Formulário', href: '#contact' },
+    ],
+  },
+  {
+    title: 'Social',
+    links: [
+      { label: 'LinkedIn', href: '#' },
+      { label: 'GitHub', href: '#' },
+      { label: 'Instagram', href: '#' },
+    ],
+  },
+]
+
 function Footer() {
   return (
     <footer className="footer">
       <div className="container">
-        <div className="footer-content">
-          <div className="footer-brand">
-            <h3>VYSIONIS</h3>
-            <p>Software sob medida para empresas. São Paulo, Brasil.</p>
+        <div className="tile tile--ink footer-tile">
+          <div className="footer-top">
+            <p className="footer-tagline">
+              Software sob medida para empresas.
+              <br />
+              São Paulo, Brasil.
+            </p>
+
+            <nav className="footer-links" aria-label="Rodapé">
+              {columns.map((column) => (
+                <div key={column.title} className="footer-column">
+                  <span className="tile-label">{column.title}</span>
+                  {column.links.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              ))}
+            </nav>
           </div>
-          
-          <div className="footer-links">
-            <div className="footer-column">
-              <h4>Empresa</h4>
-              <a href="#about">Sobre</a>
-              <a href="#projects">Projetos</a>
-              <a href="#services">Serviços</a>
-            </div>
-            
-            <div className="footer-column">
-              <h4>Contato</h4>
-              <a href="mailto:contato@vysionis.com.br">Email</a>
-              <a href="https://wa.me/5511965804957" target="_blank" rel="noopener noreferrer">WhatsApp</a>
-              <a href="#contact">Formulário</a>
-            </div>
-            
-            <div className="footer-column">
-              <h4>Social</h4>
-              <a href="#">LinkedIn</a>
-              <a href="#">GitHub</a>
-              <a href="#">Instagram</a>
-            </div>
+
+          <p className="display footer-wordmark" aria-hidden="true">Vysionis</p>
+
+          <div className="footer-bottom">
+            <span>&copy; {new Date().getFullYear()} Vysionis. Todos os direitos reservados.</span>
+            <a href="#home">Voltar ao topo ↑</a>
           </div>
-        </div>
-        
-        <div className="footer-bottom">
-          <p>&copy; 2025 Vysionis. Todos os direitos reservados.</p>
         </div>
       </div>
     </footer>

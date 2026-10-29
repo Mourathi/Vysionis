@@ -1,0 +1,123 @@
+.screen-nav {
+  position: fixed;
+  top: 50%;
+  right: var(--gutter);
+  z-index: 900;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.9rem;
+  padding: 0.85rem 0.55rem;
+  border-radius: 999px;
+  background: var(--surface-translucent);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.screen-nav-count {
+  align-self: center;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.screen-nav-count span {
+  color: var(--text-faint);
+}
+
+.screen-nav ol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  list-style: none;
+}
+
+.screen-nav a {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  text-decoration: none;
+}
+
+.screen-nav-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border-strong);
+  transition: height 0.4s var(--ease), background-color 0.3s ease;
+}
+
+.screen-nav a:hover .screen-nav-dot {
+  background: var(--text-secondary);
+}
+
+.screen-nav a.is-active .screen-nav-dot {
+  height: 18px;
+  background: var(--purple);
+}
+
+/* Nome da tela aparece à esquerda ao passar o mouse */
+.screen-nav-label {
+  position: absolute;
+  right: calc(100% + 0.9rem);
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: var(--ink-bg);
+  color: var(--ink-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateX(6px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.3s var(--ease);
+}
+
+.screen-nav a:hover .screen-nav-label,
+.screen-nav a:focus-visible .screen-nav-label {
+  opacity: 1;
+  transform: none;
+}
+
+.screen-nav a:focus-visible {
+  outline: 2px solid var(--purple);
+  border-radius: 50%;
+}
+
+/* No celular o indicador vira uma pílula horizontal no rodapé da tela */
+@media (max-width: 860px) {
+  .screen-nav {
+    top: auto;
+    right: auto;
+    left: 50%;
+    bottom: calc(var(--gap) + env(safe-area-inset-bottom, 0px));
+    transform: translateX(-50%);
+    flex-direction: row;
+    align-items: center;
+    padding: 0.45rem 0.85rem;
+  }
+
+  .screen-nav ol {
+    flex-direction: row;
+  }
+
+  .screen-nav a.is-active .screen-nav-dot {
+    width: 18px;
+    height: 6px;
+  }
+
+  .screen-nav-dot {
+    transition: width 0.4s var(--ease), background-color 0.3s ease;
+  }
+
+  .screen-nav-label {
+    display: none;
+  }
+}

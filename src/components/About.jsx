@@ -1,58 +1,44 @@
 import React from 'react'
 import './About.css'
+import SectionHead from './SectionHead'
 import { InnovationIcon, TargetIcon, RocketIcon } from './Icons'
+
+const values = [
+  { icon: InnovationIcon, title: 'Tecnologia atual', text: 'Stack moderno e comprovado.' },
+  { icon: TargetIcon, title: 'Feito sob medida', text: 'O sistema se adapta ao processo.' },
+  { icon: RocketIcon, title: 'Pronto para escalar', text: 'Cresce junto com o negócio.', wide: true },
+]
 
 function About() {
   return (
     <section id="about" className="section about">
       <div className="container">
-        <div className="section-head">
-          <span className="section-index">
-            <span className="section-index-num">01</span>
-            <span className="section-index-label">Sobre</span>
-          </span>
-          <div>
-            <h2 className="section-title">Software sob medida, do escopo à operação.</h2>
-            <p className="section-subtitle">
-              Somos um estúdio especializado em sistemas customizados. Projetamos, desenvolvemos e
-              mantemos cada solução conforme a necessidade real do seu negócio.
-            </p>
-          </div>
-        </div>
+        <div className="bento bento--m2">
+          <SectionHead
+            className="w-2 h-2 tile--ink"
+            num="01"
+            label="Sobre"
+            title={<>Do escopo<br />à operação.</>}
+            text="Projetamos, desenvolvemos e mantemos."
+          />
 
-        <div className="about-grid">
-          <article className="about-card">
-            <span className="about-card-icon">
-              <InnovationIcon className="icon-svg" />
-            </span>
-            <h3>Tecnologia atual</h3>
-            <p>
-              Trabalhamos com um stack moderno e comprovado para entregar sistemas rápidos,
-              seguros e fáceis de manter.
-            </p>
-          </article>
-
-          <article className="about-card">
-            <span className="about-card-icon">
-              <TargetIcon className="icon-svg" />
-            </span>
-            <h3>Feito sob medida</h3>
-            <p>
-              Cada projeto parte da sua operação. Nada de pacote fechado — o sistema se adapta ao
-              processo, não o contrário.
-            </p>
-          </article>
-
-          <article className="about-card">
-            <span className="about-card-icon">
-              <RocketIcon className="icon-svg" />
-            </span>
-            <h3>Pronto para escalar</h3>
-            <p>
-              Arquitetura pensada para crescer junto com o negócio, mantendo desempenho e
-              estabilidade ao longo do tempo.
-            </p>
-          </article>
+          {values.map((value) => {
+            const IconComponent = value.icon
+            return (
+              <article
+                key={value.title}
+                className={`tile tile-hover about-card ${value.wide ? 'w-2 about-card--wide' : ''}`}
+              >
+                <span className="about-icon">
+                  <IconComponent className="icon-svg" />
+                </span>
+                <div className="tile-bottom">
+                  <h3 className="display about-title">{value.title}</h3>
+                  <p className="tile-text">{value.text}</p>
+                </div>
+              </article>
+            )
+          })}
         </div>
       </div>
     </section>

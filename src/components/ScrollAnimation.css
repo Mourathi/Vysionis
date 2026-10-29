@@ -1,22 +1,59 @@
-.scroll-animation {
+/* Entrada dos blocos. Padrão (navegadores sem animação guiada por rolagem):
+   o Layout marca o grupo com .visible e os blocos entram em cascata. */
+.scroll-animation:not(.visible) .tile {
   opacity: 0;
-  transform: translateY(18px);
-  will-change: opacity, transform;
-  transition-property: opacity, transform;
-  transition-duration: 0.6s;
-  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.scroll-animation.visible {
-  opacity: 1;
-  transform: translateY(0);
+.scroll-animation.visible .tile {
+  animation: tileIn 0.8s var(--ease) backwards;
+  animation-delay: calc(var(--i, 0) * 70ms);
+}
+
+.scroll-animation .tile:nth-child(2) { --i: 1; }
+.scroll-animation .tile:nth-child(3) { --i: 2; }
+.scroll-animation .tile:nth-child(4) { --i: 3; }
+.scroll-animation .tile:nth-child(5) { --i: 4; }
+.scroll-animation .tile:nth-child(6) { --i: 5; }
+.scroll-animation .tile:nth-child(7) { --i: 6; }
+.scroll-animation .tile:nth-child(n + 8) { --i: 7; }
+
+@keyframes tileIn {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.97);
+  }
+}
+
+/* Com suporte (Chrome, Edge, Safari 26+): os blocos são "jogados" na tela
+   conforme a rolagem — o movimento acompanha o dedo/roda, não um gatilho.
+   fill-mode "backwards": depois de entrar, o hover volta a funcionar. */
+@supports (animation-timeline: view()) {
+  .scroll-animation:not(.visible) .tile,
+  .scroll-animation.visible .tile,
+  .scroll-animation .tile {
+    opacity: 1;
+    animation: tileFly linear backwards;
+    animation-timeline: view();
+    animation-range: entry 0% cover 30%;
+    animation-delay: 0s;
+  }
+
+  /* Cada bloco vem de um lado, levemente girado */
+  .scroll-animation .tile:nth-child(odd) { --tilt: -3deg; --dx: -40px; }
+  .scroll-animation .tile:nth-child(even) { --tilt: 3deg; --dx: 40px; }
+}
+
+@keyframes tileFly {
+  from {
+    opacity: 0;
+    transform: translate(var(--dx, 0), 110px) rotate(var(--tilt, 0deg)) scale(0.9);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .scroll-animation {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-    will-change: auto;
+  .scroll-animation:not(.visible) .tile,
+  .scroll-animation .tile {
+    opacity: 1;
+    animation: none;
   }
 }

@@ -1,0 +1,71 @@
+.band {
+  /* clip (e não hidden) para não virar contêiner de rolagem e manter o view() da página */
+  overflow: clip;
+  padding: clamp(1rem, 3vw, 2.5rem) 0;
+}
+
+.band-track {
+  display: flex;
+  width: max-content;
+  /* Sem suporte a animação guiada por rolagem: letreiro contínuo */
+  animation: bandLoop 50s linear infinite;
+}
+
+.band--reverse .band-track {
+  animation-direction: reverse;
+}
+
+.band-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3em;
+  padding-right: 0.3em;
+  font-size: clamp(3.25rem, 11vw, 11rem);
+  white-space: nowrap;
+  color: var(--text);
+}
+
+.band-item::after {
+  content: '✦';
+  font-size: 0.3em;
+  color: var(--purple);
+  -webkit-text-stroke: 0;
+}
+
+.band-item--outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--text);
+}
+
+@keyframes bandLoop {
+  to { transform: translateX(-33.333%); }
+}
+
+/* Com suporte: a faixa anda junto com a rolagem, em sentidos alternados */
+@supports (animation-timeline: view()) {
+  .band-track {
+    animation: bandScroll linear both;
+    animation-timeline: view();
+  }
+
+  .band--reverse .band-track {
+    animation-name: bandScrollReverse;
+    animation-direction: normal;
+  }
+}
+
+@keyframes bandScroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-30%); }
+}
+
+@keyframes bandScrollReverse {
+  from { transform: translateX(-30%); }
+  to { transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .band-track {
+    animation: none;
+  }
+}

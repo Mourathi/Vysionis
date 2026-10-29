@@ -1,63 +1,73 @@
 import React from 'react'
 import './Projects.css'
 
+const projects = [
+  {
+    title: 'Sistema Predial',
+    description: 'Gestão de condomínios: encomendas, acessos e reservas.',
+    tags: ['React', 'Python', 'PostgreSQL'],
+    status: 'Em desenvolvimento',
+    tone: 'tile--ink',
+  },
+  {
+    title: 'Sistema Corporativo',
+    description: 'Processos internos integrados de ponta a ponta.',
+    tags: ['FastAPI', 'React', 'Supabase'],
+    status: 'Planejamento',
+    tone: '',
+  },
+  {
+    title: 'Automação Industrial',
+    description: 'Monitoramento em tempo real para a indústria 4.0.',
+    tags: ['IoT', 'Python', 'React'],
+    status: 'Planejamento',
+    tone: 'tile--accent',
+  },
+]
+
+/** Galeria horizontal: a seção fica presa na tela e os cards passam de lado conforme a rolagem. */
 function Projects() {
-  const projects = [
-    {
-      title: 'Sistema Predial',
-      description:
-        'Plataforma completa para gestão de condomínios: controle de encomendas, entrada e saída, reservas de áreas e comunicação com moradores.',
-      tags: ['React', 'Python', 'PostgreSQL'],
-      status: 'Em desenvolvimento',
-    },
-    {
-      title: 'Sistema Corporativo',
-      description:
-        'Soluções empresariais customizadas para otimizar e integrar processos internos de ponta a ponta.',
-      tags: ['FastAPI', 'React', 'Supabase'],
-      status: 'Planejamento',
-    },
-    {
-      title: 'Automação Industrial',
-      description:
-        'Monitoramento e automação para indústria 4.0, com coleta de dados em tempo real e painéis de controle.',
-      tags: ['IoT', 'Python', 'React'],
-      status: 'Planejamento',
-    },
-  ]
-
   return (
-    <section id="projects" className="section projects">
-      <div className="container">
-        <div className="section-head">
-          <span className="section-index">
-            <span className="section-index-num">02</span>
-            <span className="section-index-label">Projetos</span>
-          </span>
-          <div>
-            <h2 className="section-title">O que estamos construindo.</h2>
-            <p className="section-subtitle">
-              Uma amostra das soluções em que estamos trabalhando — de gestão predial a automação
-              industrial.
-            </p>
+    <section id="projects" className="projects">
+      <div className="projects-sticky">
+        <div className="projects-track">
+          <div className="tile project-slide project-slide--head">
+            <span className="tile-label">
+              <span className="tile-label-num">02</span> / Projetos
+            </span>
+            <h2 className="display section-title projects-title">
+              O que estamos construindo.
+            </h2>
+            <span className="projects-hint" aria-hidden="true">
+              Continue rolando →
+            </span>
           </div>
-        </div>
 
-        <div className="projects-grid">
           {projects.map((project, index) => (
-            <article key={index} className="project-card">
+            <article key={project.title} className={`tile project-slide ${project.tone}`}>
+              <span className="project-num" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
               <span className="project-status">{project.status}</span>
-              <h3>{project.title}</h3>
-              <p>{project.description}</p>
-              <div className="project-tags">
-                {project.tags.map((tag, i) => (
-                  <span key={i} className="tag">
-                    {tag}
-                  </span>
-                ))}
+              <div className="tile-bottom">
+                <h3 className="display project-title">{project.title}</h3>
+                <p className="tile-text">{project.description}</p>
+                <ul className="tag-list project-tags">
+                  {project.tags.map((tag) => (
+                    <li key={tag} className="tag">{tag}</li>
+                  ))}
+                </ul>
               </div>
             </article>
           ))}
+
+          <a href="#contact" className="tile tile--gradient project-slide project-cta">
+            <span className="tile-label">Próximo</span>
+            <div className="tile-bottom project-cta-foot">
+              <span className="display project-cta-title">Seu projeto aqui</span>
+              <span className="tile-arrow" aria-hidden="true">→</span>
+            </div>
+          </a>
         </div>
       </div>
     </section>

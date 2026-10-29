@@ -1,49 +1,37 @@
-.about-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
-  gap: 1.25rem;
+.about-icon {
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  transition: transform 0.6s var(--ease);
 }
 
-.about-card {
-  padding: 1.85rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: var(--surface);
-  transition: border-color 0.22s ease, background-color 0.22s ease;
+.about-card:hover .about-icon {
+  transform: rotate(-10deg) scale(1.08);
 }
 
-.about-card:hover {
-  border-color: var(--border-strong);
-  background: var(--surface-2);
+.about-title {
+  font-size: clamp(1.6rem, 2.6vw, 2.5rem);
 }
 
-.about-card-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-sm);
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  margin-bottom: 1.25rem;
+.about-card--wide .about-title {
+  font-size: clamp(2rem, 4vw, 3.75rem);
 }
 
-.about-card .icon-svg {
-  width: 24px;
-  height: 24px;
+.about-card--wide .about-icon {
+  position: absolute;
+  top: clamp(1.25rem, 2.2vw, 2rem);
+  right: clamp(1.25rem, 2.2vw, 2rem);
+  width: 4.5rem;
+  height: 4.5rem;
 }
 
-.about-card h3 {
-  font-size: 1.15rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--text);
-  margin-bottom: 0.55rem;
-}
+@media (max-width: 640px) {
+  .about-icon {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
 
-.about-card p {
-  color: var(--text-secondary);
-  font-size: 0.96rem;
-  line-height: 1.62;
+  .about-title {
+    font-size: 1.35rem;
+  }
 }
