@@ -34,7 +34,6 @@
   to {
     transform: scale(0.9) translateY(6%);
     opacity: 0.25;
-    filter: blur(2px);
   }
 }
 

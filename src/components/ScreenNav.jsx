@@ -15,22 +15,34 @@ function ScreenNav() {
   const [active, setActive] = useState('home')
 
   useEffect(() => {
-    // A tela "ativa" é a que cruza o meio da janela
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) setActive(entry.target.id)
-        }
-      },
-      { rootMargin: '-50% 0px -50% 0px' }
-    )
+    // A tela "ativa" é a última cujo topo já passou do meio da janela
+    // (assim o rodapé conta como a última tela, mesmo pulando direto até ele)
+    const sections = SCREENS.map(({ id }) => document.getElementById(id)).filter(Boolean)
+    let frame = 0
 
-    SCREENS.forEach(({ id }) => {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    })
+    const update = () => {
+      frame = 0
+      const middle = window.innerHeight / 2
+      let current = sections[0]
+      for (const el of sections) {
+        if (el.getBoundingClientRect().top <= middle) current = el
+      }
+      if (current) setActive(current.id)
+    }
 
-    return () => observer.disconnect()
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update)
+    }
+
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    window.addEventListener('resize', onScroll)
+
+    return () => {
+      cancelAnimationFrame(frame)
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', onScroll)
+    }
   }, [])
 
   const index = SCREENS.findIndex((s) => s.id === active)

@@ -130,7 +130,7 @@ const jsonLd = {
       if (!reduce) {
         const header = document.querySelector('.header')
         const offset = header ? -(header.getBoundingClientRect().bottom + 8) : 0
-        new Lenis({ autoRaf: true, anchors: { offset }, lerp: 0.09 })
+        new Lenis({ autoRaf: true, anchors: { offset }, lerp: 0.15, wheelMultiplier: 1.15 })
       }
 
       // Entrada dos blocos para navegadores sem animação guiada por rolagem

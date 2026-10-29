@@ -1,10 +1,26 @@
+/* Respiro antes do rodapé: ele fecha a página, não é mais um bloco do contato */
 .footer {
-  padding: 0 0 var(--gap);
-  scroll-snap-align: end;
+  padding: clamp(4rem, 10vw, 9rem) 0 var(--gap);
 }
 
+/* Rodapé sempre escuro, nos dois temas (os tokens "tinta" são fixados aqui) */
 .footer-tile {
+  --ink-bg: #111116;
+  --ink-text: #ecedf1;
+  --ink-muted: rgba(236, 237, 241, 0.6);
+  --ink-border: rgba(255, 255, 255, 0.1);
   gap: clamp(2rem, 5vw, 4rem);
+}
+
+.tile--ink.footer-tile {
+  border-color: var(--ink-border);
+}
+
+/* Celular: espaço para a pílula do indicador de telas não cobrir o rodapé */
+@media (max-width: 860px) {
+  .footer {
+    padding-bottom: calc(var(--gap) + 4.5rem + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 .footer-top {
@@ -56,6 +72,10 @@
   letter-spacing: -0.06em;
   text-align: center;
   white-space: nowrap;
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .footer-bottom {
