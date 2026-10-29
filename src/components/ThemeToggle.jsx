@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react'
+import React, { useSyncExternalStore } from 'react'
 import './ThemeToggle.css'
 
 const STORAGE_KEY = 'vysionis-theme'
 
-function getInitialTheme() {
-  if (typeof document === 'undefined') return 'light'
-  return document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light'
+// O tema vive em <html data-theme>, definido antes da pintura pelo script do Layout.
+const subscribe = (onChange) => {
+  const observer = new MutationObserver(onChange)
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+  return () => observer.disconnect()
 }
+const getTheme = () => (document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light')
+// No servidor o tema é desconhecido: null mantém o botão oculto até a hidratação.
+const getServerTheme = () => null
 
 /** Alterna entre tema claro (padrão) e escuro, persistindo a escolha. */
 function ThemeToggle() {
-  const [theme, setTheme] = useState(getInitialTheme)
-  const [mounted, setMounted] = useState(false)
+  const theme = useSyncExternalStore(subscribe, getTheme, getServerTheme)
+  const mounted = theme !== null
 
-  useEffect(() => {
-    setMounted(true)
-    setTheme(getInitialTheme())
-  }, [])
-
-  const applyTheme = (next) => {
-    setTheme(next)
+  const toggle = () => {
+    const next = theme === 'dark' ? 'light' : 'dark'
     document.documentElement.dataset.theme = next
     try {
       localStorage.setItem(STORAGE_KEY, next)
@@ -27,8 +27,6 @@ function ThemeToggle() {
       /* localStorage indisponível — ignora */
     }
   }
-
-  const toggle = () => applyTheme(theme === 'dark' ? 'light' : 'dark')
 
   const isDark = theme === 'dark'
 
