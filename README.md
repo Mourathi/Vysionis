@@ -2,7 +2,7 @@
 
 Site institucional da Vysionis, feito com [Astro](https://astro.build) e componentes React.
 O resultado é um site estático (HTML pronto para SEO). Só o header, o botão de tema,
-a barra de progresso e o formulário de contato carregam JavaScript.
+o indicador de telas e o formulário de contato carregam JavaScript.
 
 ## Comandos
 
@@ -13,6 +13,7 @@ a barra de progresso e o formulário de contato carregam JavaScript.
 | `npm run build`   | Gera o site estático em `dist/`            |
 | `npm run preview` | Serve o `dist/` localmente                 |
 | `npm run lint`    | Roda o ESLint                              |
+| `npm run deploy`  | Gera o build e publica na Cloudflare       |
 
 ## Estrutura
 
@@ -25,3 +26,14 @@ identidade-visual/  guia de marca: cores, tipografia, logo
 ```
 
 O domínio usado no canonical, no sitemap e no Open Graph é configurado em `astro.config.mjs`.
+
+## Publicação (Cloudflare)
+
+O site é publicado como Worker com arquivos estáticos (`wrangler.jsonc`), nos domínios
+`vysionis.com` e `www.vysionis.com`. A Cloudflare cria o DNS e o HTTPS automaticamente,
+desde que a zona `vysionis.com` esteja na mesma conta.
+
+```bash
+npx wrangler login   # uma vez, abre o navegador para autorizar
+npm run deploy
+```

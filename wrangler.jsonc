@@ -1,0 +1,16 @@
+// Publicação na Cloudflare (Workers com arquivos estáticos).
+// Deploy: npm run deploy  (gera o build e envia a pasta dist/)
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "vysionis",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist"
+  },
+  // Domínios próprios: a Cloudflare cria o DNS e o certificado HTTPS sozinha
+  // (a zona vysionis.com precisa estar nesta mesma conta)
+  "routes": [
+    { "pattern": "vysionis.com", "custom_domain": true },
+    { "pattern": "www.vysionis.com", "custom_domain": true }
+  ]
+}

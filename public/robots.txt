@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.vysionis.com.br/sitemap-index.xml
+Sitemap: https://vysionis.com/sitemap-index.xml

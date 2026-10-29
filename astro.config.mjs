@@ -6,6 +6,6 @@ import sitemap from '@astrojs/sitemap'
 // https://astro.build/config
 export default defineConfig({
   // Domínio oficial do site (usado em canonical, sitemap e URLs de Open Graph).
-  site: 'https://www.vysionis.com.br',
+  site: 'https://vysionis.com',
   integrations: [react(), sitemap()],
 })
