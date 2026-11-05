@@ -155,6 +155,68 @@ const jsonLd = {
         )
         els.forEach((el) => io.observe(el))
       }
+
+      // Animação guiada por rolagem no CSS: Chrome, Edge e Safari 26+. Firefox e iPhone
+      // com iOS antigo não têm; neles este script faz o mesmo movimento.
+      const cssRolagem = CSS.supports('animation-timeline: view()')
+      const limitar = (x) => Math.min(1, Math.max(0, x))
+      const aCadaRolagem = (fn) => {
+        let pedido = 0
+        const rodar = () => {
+          pedido = 0
+          fn()
+        }
+        addEventListener('scroll', () => pedido || (pedido = requestAnimationFrame(rodar)), { passive: true })
+        addEventListener('resize', rodar)
+        rodar()
+      }
+
+      // Galeria de Projetos presa na tela: a rolagem vertical passa todos os cards de lado.
+      // Liga em qualquer navegador quando o movimento é permitido e a tela tem altura
+      // (celular deitado fica com a grade). Mede quanto o trilho anda (--projects-dist).
+      const galeria = document.querySelector('.projects')
+      if (galeria) {
+        const trilho = galeria.querySelector('.projects-track')
+        const palco = galeria.querySelector('.projects-sticky')
+        const podePrender = matchMedia('(prefers-reduced-motion: no-preference) and (min-height: 520px)')
+        let dist = 0
+        const mover = () => {
+          if (cssRolagem || !galeria.classList.contains('projects--presa')) return
+          const curso = galeria.offsetHeight - palco.offsetHeight
+          const t = curso > 0 ? limitar(-galeria.getBoundingClientRect().top / curso) : 0
+          trilho.style.transform = `translate3d(${(-t * dist).toFixed(1)}px, 0, 0)`
+        }
+        const medir = () => {
+          const presa = galeria.classList.contains('projects--presa')
+          dist = presa ? Math.max(0, Math.round(trilho.offsetWidth - palco.clientWidth)) : 0
+          galeria.style.setProperty('--projects-dist', String(dist))
+          mover()
+        }
+        const ligar = () => {
+          galeria.classList.toggle('projects--presa', podePrender.matches)
+          if (!podePrender.matches) trilho.style.transform = ''
+          medir()
+        }
+        podePrender.addEventListener('change', ligar)
+        const ro = new ResizeObserver(medir)
+        ro.observe(trilho)
+        ro.observe(palco)
+        ligar()
+        aCadaRolagem(mover)
+      }
+
+      // Hero que encolhe e escurece ao sair da tela (onde o CSS não faz)
+      const heroBento = document.querySelector('.hero-bento')
+      if (heroBento && !cssRolagem && !reduce) {
+        aCadaRolagem(() => {
+          // Posição sem o transform aplicado (offsetTop ignora transform)
+          let topo = 0
+          for (let el = heroBento; el; el = el.offsetParent) topo += el.offsetTop
+          const t = limitar((scrollY - topo) / heroBento.offsetHeight)
+          heroBento.style.transform = t ? `scale(${1 - 0.1 * t}) translateY(${6 * t}%)` : ''
+          heroBento.style.opacity = t ? String(1 - 0.75 * t) : ''
+        })
+      }
     </script>
   </body>
 </html>

@@ -46,6 +46,7 @@ const planos = [
     itens: [
       'Entradas e saídas com foto',
       'Encomendas e visitas com aviso no celular',
+      'Câmeras do prédio ao vivo',
       'Livro da portaria e passagem de turno',
       'Reservas de áreas comuns',
       'Cadastros de moradores, carros e empresas',
@@ -82,7 +83,7 @@ const planos = [
 const passos = [
   { titulo: 'Demonstração', texto: 'Mostramos o Trinco funcionando no celular, no tablet e no computador.' },
   { titulo: 'Lista do prédio', texto: 'O condomínio envia blocos, apartamentos e moradores, de preferência em planilha.' },
-  { titulo: 'Implantação', texto: 'Cadastramos o prédio, criamos as contas da equipe e deixamos tudo pronto para usar.' },
+  { titulo: 'Implantação', texto: 'Cadastramos o prédio, ligamos as câmeras, criamos as contas da equipe e deixamos tudo pronto para usar.' },
   { titulo: 'Orientação da portaria', texto: 'Explicamos aos porteiros como registrar entradas, encomendas e visitas no Modo Fácil.' },
   { titulo: '30 dias grátis', texto: 'Depois do teste, começa o contrato: 6 meses com preço cheio, ou 12 meses com desconto.' },
 ]
@@ -117,8 +118,8 @@ const duvidas = [
     r: 'Sim: 6 meses com preço cheio, ou 12 meses com desconto (10% pagando por semestre, ou pague 10 e use 12 pagando o ano). Se cancelar antes do prazo, a multa é de 20% das mensalidades que faltam.',
   },
   {
-    p: 'O Trinco controla câmeras, interfone ou portão?',
-    r: 'Não. Câmeras, interfone e abertura de portão não fazem parte dos planos atuais. O Trinco organiza o que a portaria registra e avisa.',
+    p: 'O Trinco mostra as câmeras do prédio?',
+    r: 'Sim, ao vivo, pelo gravador (DVR ou NVR) que o prédio já tem, desde o plano Essencial. A portaria vê as câmeras na tela, e o morador vê no celular só as que o síndico liberar, como portão, garagem e hall. O vídeo vai direto do prédio para a tela: não passa pelos nossos servidores e não é gravado pelo Trinco (quem grava continua sendo o gravador). Se o prédio precisar comprar ou instalar câmeras, isso é orçado à parte.',
   },
 ]
 
@@ -129,9 +130,9 @@ const jsonLd = {
   name: 'Trinco',
   applicationCategory: 'BusinessApplication',
   operatingSystem: 'Web (navegador)',
-  url: new URL('/trinco', site).toString(),
+  url: new URL('/trinco/', site).toString(),
   description:
-    'Sistema de portaria para condomínios: entradas e saídas, encomendas e visitas com aviso no celular do morador, livro da portaria e reservas de áreas comuns.',
+    'Sistema de portaria para condomínios: entradas e saídas, encomendas e visitas com aviso no celular do morador, câmeras do prédio ao vivo, livro da portaria e reservas de áreas comuns.',
   publisher: { '@type': 'Organization', name: 'Vysionis', url: site.toString() },
   offers: planos.map((p) => ({
     '@type': 'Offer',
@@ -145,7 +146,7 @@ const jsonLd = {
 
 <Layout
   title="Trinco — Sistema de portaria para condomínios | Vysionis"
-  description="Entradas e saídas, encomendas e visitas com aviso no celular do morador, livro da portaria e reservas do salão. Funciona no navegador, sem instalar nada. 30 dias grátis."
+  description="Entradas e saídas, encomendas e visitas com aviso no celular do morador, câmeras do prédio ao vivo, livro da portaria e reservas do salão. Funciona no navegador, sem instalar nada. 30 dias grátis."
   favicon="/trinco/favicon.svg"
 >
   <!-- Marca a página como "com JS" antes da pintura: sem JS, tudo aparece sem animação -->
@@ -238,9 +239,9 @@ const jsonLd = {
             A portaria do seu prédio, <em>organizada</em> em um só lugar.
           </h1>
           <p class="tr-sub tr-entra" style="--d: 2">
-            Entradas e saídas, encomendas e visitas com aviso no celular do morador, livro da
-            portaria e reservas do salão. No celular, no tablet da guarita ou no computador,
-            sem instalar nada.
+            Entradas e saídas, encomendas e visitas com aviso no celular do morador, câmeras do
+            prédio ao vivo, livro da portaria e reservas do salão. No celular, no tablet da
+            guarita ou no computador, sem instalar nada.
           </p>
           <div class="tr-acoes tr-entra" style="--d: 3">
             <a class="tr-btn tr-btn--azul" href={WHATSAPP} target="_blank" rel="noopener noreferrer">
@@ -450,7 +451,7 @@ const jsonLd = {
                 <span>Entrada</span><span>Encomenda</span><span>Visita</span><span>Saída</span>
               </div>
               <h3>Porteiro</h3>
-              <p>Modo Fácil, com botões grandes e opção de letras grandes. Não precisa ser bom de computador.</p>
+              <p>Modo Fácil, com botões grandes e opção de letras grandes, e as câmeras do prédio ao vivo. Não precisa ser bom de computador.</p>
             </article>
             <article class="cap-cartao perfil" style="--i: 1">
               <div class="perfil-demo perfil-demo--morador" aria-hidden="true">
@@ -458,7 +459,7 @@ const jsonLd = {
                 <span class="perfil-bolha">👋 Sua visita chegou</span>
               </div>
               <h3>Morador</h3>
-              <p>Recebe no celular o aviso de encomenda e de visita, e vê só o que é do seu apartamento.</p>
+              <p>Recebe no celular o aviso de encomenda e de visita e vê as câmeras que o síndico liberar. Do resto, só o que é do seu apartamento.</p>
             </article>
             <article class="cap-cartao perfil" style="--i: 2">
               <div class="perfil-demo perfil-demo--painel" aria-hidden="true">
@@ -487,7 +488,7 @@ const jsonLd = {
             </li>
             <li style="--i: 2">
               <span class="seguro-ic" aria-hidden="true">🧾</span>
-              <span><b>Tudo registrado.</b> Toda alteração fica no histórico: quem fez, o quê e quando.</span>
+              <span><b>Tudo registrado.</b> Toda alteração fica no histórico: quem fez, o quê e quando. Quem abriu cada câmera também.</span>
             </li>
             <li style="--i: 3">
               <span class="seguro-ic" aria-hidden="true">📄</span>

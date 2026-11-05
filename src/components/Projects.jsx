@@ -3,11 +3,14 @@ import './Projects.css'
 
 const projects = [
   {
-    title: 'Sistema Predial',
-    description: 'Gestão de condomínios: encomendas, acessos e reservas.',
-    tags: ['React', 'Python', 'PostgreSQL'],
-    status: 'Em desenvolvimento',
+    title: 'Trinco',
+    description: 'Sistema de portaria para condomínios: entradas, encomendas, visitas e reservas.',
+    tags: ['React', 'TypeScript', 'Supabase'],
+    status: 'Disponível',
     tone: 'tile--ink',
+    // Página do produto, com a apresentação completa
+    href: '/trinco/',
+    chamada: 'Conhecer o Trinco',
   },
   {
     title: 'Sistema Corporativo',
@@ -25,7 +28,8 @@ const projects = [
   },
 ]
 
-/** Galeria horizontal: a seção fica presa na tela e os cards passam de lado conforme a rolagem. */
+/** Galeria de projetos: presa na tela, os cards passam de lado conforme a rolagem
+ *  (o script do Layout liga .projects--presa; sem ele, os cards ficam em grade). */
 function Projects() {
   return (
     <section id="projects" className="projects">
@@ -43,23 +47,37 @@ function Projects() {
             </span>
           </div>
 
-          {projects.map((project, index) => (
-            <article key={project.title} className={`tile project-slide ${project.tone}`}>
-              <span className="project-num" aria-hidden="true">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <span className="project-status">{project.status}</span>
-              <div className="tile-bottom">
-                <h3 className="display project-title">{project.title}</h3>
-                <p className="tile-text">{project.description}</p>
-                <ul className="tag-list project-tags">
-                  {project.tags.map((tag) => (
-                    <li key={tag} className="tag">{tag}</li>
-                  ))}
-                </ul>
-              </div>
-            </article>
-          ))}
+          {projects.map((project, index) => {
+            // Projeto com página própria vira link (o card inteiro é clicável)
+            const Card = project.href ? 'a' : 'article'
+            return (
+              <Card
+                key={project.title}
+                href={project.href}
+                className={`tile project-slide ${project.tone}`}
+              >
+                <span className="project-num" aria-hidden="true">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <span className="project-status">{project.status}</span>
+                <div className="tile-bottom">
+                  <h3 className="display project-title">{project.title}</h3>
+                  <p className="tile-text">{project.description}</p>
+                  <ul className="tag-list project-tags">
+                    {project.tags.map((tag) => (
+                      <li key={tag} className="tag">{tag}</li>
+                    ))}
+                  </ul>
+                  {project.chamada && (
+                    <span className="project-link">
+                      {project.chamada}
+                      <span className="tile-arrow" aria-hidden="true">→</span>
+                    </span>
+                  )}
+                </div>
+              </Card>
+            )
+          })}
 
           <a href="#contact" className="tile tile--gradient project-slide project-cta">
             <span className="tile-label">Próximo</span>

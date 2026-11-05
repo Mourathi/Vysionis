@@ -1,85 +1,110 @@
-/* ---------- Galeria horizontal ----------
-   Padrão (celular, navegadores sem suporte, movimento reduzido): faixa que se arrasta
-   com o dedo. Com suporte no desktop: a seção fica presa e a rolagem vertical move os cards. */
+/* ---------- Galeria de projetos ----------
+   Padrão (sem JS ou com movimento reduzido): os cards em grade, todos à vista.
+
+   Com .projects--presa (o script do Layout liga quando o movimento é permitido e a tela
+   tem altura para isso): a seção fica presa e a rolagem vertical passa TODOS os cards de
+   lado, do primeiro ao último, no computador e no celular. Onde há animação guiada por
+   rolagem (Chrome, Edge, Safari 26+) o próprio CSS move o trilho; onde não há (Firefox,
+   iPhone com iOS antigo) o script move. --projects-dist é quanto o trilho precisa andar
+   (px), medido pelo script: a rolagem vertical anda o mesmo tanto. */
 .projects {
   padding-top: var(--gap);
 }
 
 .projects-track {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--gap);
   padding: 0 var(--gutter);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scrollbar-width: none;
-}
-
-.projects-track::-webkit-scrollbar {
-  display: none;
 }
 
 .project-slide {
-  flex: 0 0 auto;
-  width: min(84vw, 560px);
-  min-height: min(68svh, 560px);
-  scroll-snap-align: start;
+  flex: 1 1 min(100%, 340px);
+  min-height: min(56svh, 460px);
 }
 
 .project-slide--head {
-  width: min(88vw, 640px);
+  flex-basis: 100%;
+  min-height: 0;
+}
+
+/* "Continue rolando" só faz sentido com a galeria presa */
+.projects:not(.projects--presa) .projects-hint {
+  display: none;
+}
+
+@media (min-width: 861px) {
+  /* Espaço à direita para o indicador de telas não cobrir os cards */
+  .projects:not(.projects--presa) .projects-track {
+    padding-right: calc(var(--gutter) + 2.75rem);
+  }
+}
+
+/* ---------- Galeria presa ---------- */
+.projects--presa {
+  height: calc(100svh + var(--projects-dist, 0) * 1px);
+  view-timeline-name: --projects;
+}
+
+.projects--presa .projects-sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: calc(var(--header-h) + var(--gap));
+  overflow: clip;
+}
+
+.projects--presa .projects-track {
+  flex-wrap: nowrap;
+  width: max-content;
+  will-change: transform;
+}
+
+.projects--presa .project-slide {
+  flex: 0 0 auto;
+  width: min(82vw, 520px);
+  height: min(calc(100svh - var(--header-h) - var(--gap) * 4), 640px);
+  min-height: 0;
+}
+
+.projects--presa .project-slide--head {
+  width: min(86vw, 600px);
+}
+
+@media (min-width: 861px) {
+  .projects--presa .project-slide {
+    width: clamp(380px, 38vw, 600px);
+    height: calc(100svh - var(--header-h) - var(--gap) * 4);
+  }
+
+  .projects--presa .project-slide--head {
+    width: clamp(440px, 46vw, 720px);
+  }
+
+  /* Cards levemente inclinados, alternando — endireitam ao passar o mouse */
+  .projects--presa .project-slide:nth-child(even) { rotate: 1.5deg; }
+  .projects--presa .project-slide:nth-child(odd):not(:first-child) { rotate: -1.5deg; }
+
+  .projects--presa .project-slide {
+    transition: rotate 0.5s var(--ease), transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
+  }
+
+  .projects--presa .project-slide:hover { rotate: 0deg; }
 }
 
 @supports (animation-timeline: view()) {
-  @media (min-width: 861px) and (prefers-reduced-motion: no-preference) {
-    .projects {
-      /* Altura extra = quanto de rolagem vertical os cards levam para atravessar */
-      height: 230vh;
-      view-timeline-name: --projects;
-    }
-
-    .projects-sticky {
-      position: sticky;
-      top: 0;
-      height: 100svh;
-      display: flex;
-      align-items: center;
-      padding-top: calc(var(--header-h) + var(--gap));
-      overflow: clip;
-    }
-
-    .projects-track {
-      width: max-content;
-      overflow: visible;
-      animation: projectsSlide linear both;
-      animation-timeline: --projects;
-      animation-range: contain 0% contain 100%;
-    }
-
-    .project-slide {
-      width: clamp(380px, 38vw, 600px);
-      height: calc(100svh - var(--header-h) - var(--gap) * 4);
-      min-height: 0;
-    }
-
-    .project-slide--head {
-      width: clamp(440px, 46vw, 720px);
-    }
-
-    /* Cards levemente inclinados, alternando — endireitam ao passar o mouse */
-    .project-slide:nth-child(even) { rotate: 1.5deg; }
-    .project-slide:nth-child(odd):not(:first-child) { rotate: -1.5deg; }
-
-    .project-slide {
-      transition: rotate 0.5s var(--ease), transform 0.45s var(--ease), box-shadow 0.45s var(--ease);
-    }
-
-    .project-slide:hover { rotate: 0deg; }
+  .projects--presa .projects-track {
+    animation: projectsSlide linear both;
+    animation-timeline: --projects;
+    animation-range: contain 0% contain 100%;
   }
 }
 
 /* O trilho termina com o último card encostado na borda direita */
 @keyframes projectsSlide {
-  to { transform: translateX(calc(-100% + 100vw)); }
+  to { transform: translateX(calc(var(--projects-dist, 0) * -1px)); }
 }
 
 /* ---------- Conteúdo dos cards ---------- */
@@ -183,4 +208,22 @@
 
 .project-cta-title {
   font-size: clamp(2.2rem, 13cqi, 5.5rem);
+}
+
+/* Chamada do projeto que tem página própria (ex.: Trinco) */
+.project-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--ink-border);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.tile:not(.tile--ink) .project-link {
+  border-top-color: var(--border);
 }

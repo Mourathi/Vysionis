@@ -16,13 +16,14 @@
 .hero-bento {
   flex: 1;
   grid-template-rows: repeat(2, minmax(min-content, 1fr));
+  transform-origin: 50% 0;
 }
 
-/* Ao rolar para fora, o hero encolhe e escurece (guiado pela rolagem) */
+/* Ao rolar para fora, o hero encolhe e escurece (guiado pela rolagem). Sem suporte
+   (Firefox, iOS antigo), o script do Layout faz o mesmo efeito. */
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .hero-bento {
-      transform-origin: 50% 0;
       animation: heroOut linear both;
       animation-timeline: view();
       animation-range: exit 0% exit 100%;

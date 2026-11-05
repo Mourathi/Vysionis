@@ -11,6 +11,10 @@ const columns = [
     ],
   },
   {
+    title: 'Produtos',
+    links: [{ label: 'Trinco', href: '/trinco/' }],
+  },
+  {
     title: 'Contato',
     links: [
       { label: 'Email', href: 'mailto:contato@vysionis.com.br' },
