@@ -8,6 +8,8 @@ const {
   title = 'Vysionis — Desenvolvimento de Sistemas, Apps e Software sob Medida',
   description = 'A Vysionis desenvolve sistemas web, aplicativos e software sob medida para empresas: plataformas de gestão, automação e soluções escaláveis com tecnologia de ponta. Solicite um orçamento.',
   image = '/og-image.png',
+  // Páginas de produto (ex.: /trinco) usam o ícone do próprio produto
+  favicon = '/logo.svg',
 } = Astro.props
 
 const siteName = 'Vysionis'
@@ -93,7 +95,7 @@ const jsonLd = {
     <meta name="twitter:image" content={socialImage} />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <link rel="icon" type="image/svg+xml" href={favicon} />
 
     <!-- Fonte da marca (Inter) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

@@ -1,0 +1,49 @@
+---
+/**
+ * Logo do Trinco: o trinco de porta em forma de T (olho vê quem chegou, a lingueta libera).
+ * Mesma geometria de Sistemapredial/src/components/marca/TrincoLogo.tsx — mudou lá, mude aqui.
+ *
+ * animacao: 'entrada' toca uma vez (olho abre, olha, lingueta destrava);
+ * 'vivo' faz a entrada e depois segue piscando e olhando de vez em quando.
+ */
+interface Props {
+  variante?: 'azul' | 'branco'
+  animacao?: 'entrada' | 'vivo'
+  titulo?: string
+  class?: string
+}
+
+const { variante = 'azul', animacao, titulo, class: className } = Astro.props
+const CORES = {
+  azul: { fundo: '#004BEA', simbolo: '#FFFFFF' },
+  branco: { fundo: '#FFFFFF', simbolo: '#004BEA' },
+}
+const { fundo, simbolo } = CORES[variante]
+---
+
+<svg
+  viewBox="0 0 128 128"
+  class:list={['tr-logo', animacao && `tr-logo--${animacao}`, className]}
+  role={titulo ? 'img' : undefined}
+  aria-label={titulo}
+  aria-hidden={titulo ? undefined : 'true'}
+>
+  <rect width="128" height="128" rx="15" fill={fundo}></rect>
+  <g transform="translate(22 20.6) scale(0.84)">
+    <g class="tr-logo-simbolo">
+      <path class="tr-logo-lingueta" fill={simbolo} d="M34.4 9.7V4.8A4.8 4.8 0 0 1 39.2 0H60.8A4.8 4.8 0 0 1 65.6 4.8V9.7Z"></path>
+      <path fill={simbolo} d="M5 13.2H95A5 5 0 0 1 100 18.2V40.6A5 5 0 0 1 95 45.6H63V100A5.5 5.5 0 0 1 57.5 105.5H42.5A5.5 5.5 0 0 1 37 100V45.6H5A5 5 0 0 1 0 40.6V18.2A5 5 0 0 1 5 13.2Z"></path>
+      <g class="tr-logo-olho">
+        <path fill={fundo} d="M24.2 29.5C31 21.4 40 16.3 50 16.3S69 21.4 75.8 29.5C69 37.6 60 42.8 50 42.8S31 37.6 24.2 29.5Z"></path>
+        <g class="tr-logo-iris">
+          <circle cx="50" cy="29.6" r="10.7" fill={simbolo}></circle>
+          <circle cx="53.9" cy="24.8" r="4.4" fill={fundo}></circle>
+        </g>
+      </g>
+      <g fill={fundo}>
+        <circle cx="50" cy="78.7" r="6.3"></circle>
+        <path d="M46.7 83H53.3L55.1 96.6H44.9Z"></path>
+      </g>
+    </g>
+  </g>
+</svg>

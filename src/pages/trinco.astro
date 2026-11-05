@@ -1,0 +1,619 @@
+---
+/**
+ * /trinco — página de apresentação e venda do Trinco (sistema de portaria da Vysionis).
+ *
+ * "Um dia na portaria": uma cena 3D (src/trinco/cena.js) fica fixa no fundo e a rolagem
+ * anda o relógio das 6h às 23h, levando a câmera por capítulos: entradas, encomendas,
+ * visitas, áreas comuns, livro da portaria, quem usa, segurança e planos.
+ *
+ * Todo o texto é HTML de verdade (SEO e leitor de tela); a cena é só decoração.
+ * Cada capítulo tem data-cap: o id dele liga o capítulo ao quadro de câmera em cena.js,
+ * data-hora é o horário do relógio e data-lado diz de que lado fica o cartão.
+ *
+ * Valores dos planos: política comercial de 30/10/2026 (Sistemapredial/docs/comercial).
+ */
+import Layout from '../layouts/Layout.astro'
+import TrincoLogo from '../trinco/TrincoLogo.astro'
+import Band from '../components/Band.jsx'
+import '../trinco/trinco.css'
+
+const APP = 'https://trinco.vysionis.com'
+const WHATSAPP =
+  'https://wa.me/5511965804957?text=' +
+  encodeURIComponent('Olá! Quero ver uma demonstração do Trinco no meu condomínio.')
+const EMAIL =
+  'mailto:contato@vysionis.com.br?subject=' + encodeURIComponent('Demonstração do Trinco')
+
+// Trilho do HUD (mesma ordem das seções abaixo)
+const trilho = [
+  { id: 'inicio', nome: 'Início' },
+  { id: 'entradas', nome: 'Entradas e saídas' },
+  { id: 'encomendas', nome: 'Encomendas' },
+  { id: 'visitas', nome: 'Avisos de visita' },
+  { id: 'areas', nome: 'Áreas comuns' },
+  { id: 'livro', nome: 'Livro da portaria' },
+  { id: 'perfis', nome: 'Quem usa' },
+  { id: 'seguranca', nome: 'Segurança' },
+  { id: 'planos', nome: 'Planos' },
+]
+
+const planos = [
+  {
+    nome: 'Essencial',
+    preco: '7',
+    minimo: 'R$ 179',
+    resumo: 'A portaria inteira, organizada.',
+    itens: [
+      'Entradas e saídas com foto',
+      'Encomendas e visitas com aviso no celular',
+      'Livro da portaria e passagem de turno',
+      'Reservas de áreas comuns',
+      'Cadastros de moradores, carros e empresas',
+    ],
+  },
+  {
+    nome: 'Completo',
+    preco: '10',
+    minimo: 'R$ 249',
+    resumo: 'Portaria e comunicação com os moradores.',
+    destaque: true,
+    itens: [
+      'Tudo do Essencial',
+      'Mural de avisos',
+      'Assembleias com lista de presença',
+      'Documentos e enquetes',
+      'Ocorrências dos moradores e relatório do mês',
+    ],
+  },
+  {
+    nome: 'Premium',
+    preco: '13',
+    minimo: 'R$ 329',
+    resumo: 'Tudo isso, mais a cobrança do condomínio.',
+    itens: [
+      'Tudo do Completo',
+      'Boleto e Pix',
+      'Prestação de contas',
+      'Tarifa de cada cobrança paga à parte',
+    ],
+  },
+]
+
+const passos = [
+  { titulo: 'Demonstração', texto: 'Mostramos o Trinco funcionando no celular, no tablet e no computador.' },
+  { titulo: 'Lista do prédio', texto: 'O condomínio envia blocos, apartamentos e moradores, de preferência em planilha.' },
+  { titulo: 'Implantação', texto: 'Cadastramos o prédio, criamos as contas da equipe e deixamos tudo pronto para usar.' },
+  { titulo: 'Orientação da portaria', texto: 'Explicamos aos porteiros como registrar entradas, encomendas e visitas no Modo Fácil.' },
+  { titulo: '30 dias grátis', texto: 'Depois do teste, começa o contrato: 6 meses com preço cheio, ou 12 meses com desconto.' },
+]
+
+const duvidas = [
+  {
+    p: 'Precisa instalar algum aplicativo?',
+    r: 'Não. O Trinco funciona direto no navegador do celular, do tablet da guarita ou do computador. Se quiser, dá para colocar o ícone na tela inicial do celular, como um aplicativo.',
+  },
+  {
+    p: 'O porteiro não é bom de computador. Ele vai conseguir usar?',
+    r: 'Vai. O Modo Fácil tem botões grandes e opção de letras grandes, e a gente orienta a equipe da portaria na implantação.',
+  },
+  {
+    p: 'Vocês cobram por morador?',
+    r: 'Não. O valor é por apartamento, com um mínimo por condomínio. Contas para toda a equipe e para os moradores estão incluídas, sem cobrança por pessoa e sem taxa escondida.',
+  },
+  {
+    p: 'Onde ficam os dados do prédio?',
+    r: 'Banco de dados e fotos ficam em servidores em São Paulo. As fotos ficam em armazenamento fechado, que só abre por link temporário para quem tem permissão. Os dados não são vendidos nem usados para propaganda.',
+  },
+  {
+    p: 'E a LGPD?',
+    r: 'Já vem resolvida na implantação: Política de Privacidade e Termos de Uso aceitos por cada pessoa no primeiro acesso (com o aceite registrado), acordo de tratamento de dados entre o condomínio e a Vysionis e cartaz pronto para avisar os visitantes na portaria.',
+  },
+  {
+    p: 'Como funciona a implantação?',
+    r: 'É grátis quando o condomínio manda a lista de moradores em planilha. Se for preciso digitar a partir de papel, custa R$ 4 por apartamento, grátis em contratos de 12 meses.',
+  },
+  {
+    p: 'Tem fidelidade?',
+    r: 'Sim: 6 meses com preço cheio, ou 12 meses com desconto (10% pagando por semestre, ou pague 10 e use 12 pagando o ano). Se cancelar antes do prazo, a multa é de 20% das mensalidades que faltam.',
+  },
+  {
+    p: 'O Trinco controla câmeras, interfone ou portão?',
+    r: 'Não. Câmeras, interfone e abertura de portão não fazem parte dos planos atuais. O Trinco organiza o que a portaria registra e avisa.',
+  },
+]
+
+const site = Astro.site ?? new URL('https://vysionis.com')
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'Trinco',
+  applicationCategory: 'BusinessApplication',
+  operatingSystem: 'Web (navegador)',
+  url: new URL('/trinco', site).toString(),
+  description:
+    'Sistema de portaria para condomínios: entradas e saídas, encomendas e visitas com aviso no celular do morador, livro da portaria e reservas de áreas comuns.',
+  publisher: { '@type': 'Organization', name: 'Vysionis', url: site.toString() },
+  offers: planos.map((p) => ({
+    '@type': 'Offer',
+    name: `Plano ${p.nome}`,
+    price: `${p.preco}.00`,
+    priceCurrency: 'BRL',
+    description: `Por apartamento por mês, mínimo de ${p.minimo} por condomínio.`,
+  })),
+}
+---
+
+<Layout
+  title="Trinco — Sistema de portaria para condomínios | Vysionis"
+  description="Entradas e saídas, encomendas e visitas com aviso no celular do morador, livro da portaria e reservas do salão. Funciona no navegador, sem instalar nada. 30 dias grátis."
+  favicon="/trinco/favicon.svg"
+>
+  <!-- Marca a página como "com JS" antes da pintura: sem JS, tudo aparece sem animação -->
+  <script is:inline>document.documentElement.classList.add('tr-js')</script>
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+
+  <div class="tr">
+    <a class="tr-pular" href="#entradas">Pular para o conteúdo</a>
+
+    <!-- Abertura: o T do Trinco abre o olho, destrava, e a pupila vira a janela para a cena
+         (a máscara cresce a partir da íris; o T cresce junto, como se a câmera entrasse no olho) -->
+    <!-- Cada peça do T é uma camada própria (lingueta, corpo, olho, íris): assim a animação
+         roda na placa de vídeo e não engasga enquanto a cena 3D é montada -->
+    <div class="tr-abertura" aria-hidden="true">
+      <div class="tr-abertura-simbolo">
+        <i class="ab-camada ab-lingueta">
+          <svg viewBox="0 0 100 105.5"><path fill="#fff" d="M34.4 9.7V4.8A4.8 4.8 0 0 1 39.2 0H60.8A4.8 4.8 0 0 1 65.6 4.8V9.7Z"></path></svg>
+        </i>
+        <i class="ab-camada">
+          <svg viewBox="0 0 100 105.5">
+            <path fill="#fff" d="M5 13.2H95A5 5 0 0 1 100 18.2V40.6A5 5 0 0 1 95 45.6H63V100A5.5 5.5 0 0 1 57.5 105.5H42.5A5.5 5.5 0 0 1 37 100V45.6H5A5 5 0 0 1 0 40.6V18.2A5 5 0 0 1 5 13.2Z"></path>
+            <g fill="#0852fa">
+              <circle cx="50" cy="78.7" r="6.3"></circle>
+              <path d="M46.7 83H53.3L55.1 96.6H44.9Z"></path>
+            </g>
+          </svg>
+        </i>
+        <i class="ab-camada ab-olho">
+          <svg viewBox="0 0 100 105.5"><path fill="#0852fa" d="M24.2 29.5C31 21.4 40 16.3 50 16.3S69 21.4 75.8 29.5C69 37.6 60 42.8 50 42.8S31 37.6 24.2 29.5Z"></path></svg>
+          <i class="ab-camada ab-iris">
+            <svg viewBox="0 0 100 105.5">
+              <circle cx="50" cy="29.6" r="10.7" fill="#fff"></circle>
+              <circle cx="53.9" cy="24.8" r="4.4" fill="#0852fa"></circle>
+            </svg>
+          </i>
+        </i>
+      </div>
+      <p class="tr-abertura-frase">a Vysionis vê, o Trinco libera</p>
+    </div>
+
+    <!-- Fundo: cena 3D (ou um céu em gradiente se não houver WebGL) -->
+    <div class="tr-ceu" aria-hidden="true"></div>
+    <canvas class="tr-cena" aria-hidden="true"></canvas>
+
+    <!-- HUD de cima -->
+    <header class="tr-topo">
+      <a class="tr-marca" href="#inicio" aria-label="Trinco, início da página">
+        <TrincoLogo animacao="vivo" class="tr-marca-logo" />
+        <span class="tr-marca-nome">Trinco</span>
+        <span class="tr-marca-por">por Vysionis</span>
+      </a>
+      <nav class="tr-nav" aria-label="Seções">
+        <a href="#entradas">Como funciona</a>
+        <a href="#seguranca">Segurança</a>
+        <a href="#planos">Planos</a>
+        <a href="#duvidas">Dúvidas</a>
+      </nav>
+      <div class="tr-topo-acoes">
+        <a class="tr-link-entrar" href={APP}>Entrar</a>
+        <a class="tr-btn tr-btn--azul tr-btn--p" href={WHATSAPP} target="_blank" rel="noopener noreferrer">
+          Pedir demonstração
+        </a>
+      </div>
+    </header>
+
+    <!-- HUD de baixo: relógio do dia e trilho dos capítulos -->
+    <div class="tr-hud" aria-hidden="true">
+      <div class="tr-hud-relogio">
+        <span class="tr-hud-sol" data-hud-icone></span>
+        <span class="tr-hud-hora" data-hud-hora>06:00</span>
+        <span class="tr-hud-cap" data-hud-cap>Início</span>
+      </div>
+      <div class="tr-hud-trilho">
+        <span class="tr-hud-preenche" data-hud-preenche></span>
+        {trilho.map((t) => (
+          <a href={`#${t.id}`} tabindex="-1" class="tr-hud-marco" title={t.nome} data-hud-marco={t.id}></a>
+        ))}
+      </div>
+      <span class="tr-hud-dica" data-hud-dica>role <i>↓</i></span>
+    </div>
+
+    <main class="tr-capitulos">
+      <!-- 00 · Início -->
+      <section class="cap cap--inicio" id="inicio" data-cap="inicio" data-hora="6.5" data-lado="esq">
+        <div class="cap-inicio">
+          <p class="tr-selo tr-entra" style="--d: 0">
+            <span class="tr-selo-ponto"></span> Sistema de portaria para condomínios
+          </p>
+          <h1 class="tr-titulo tr-entra" style="--d: 1">
+            A portaria do seu prédio, <em>organizada</em> em um só lugar.
+          </h1>
+          <p class="tr-sub tr-entra" style="--d: 2">
+            Entradas e saídas, encomendas e visitas com aviso no celular do morador, livro da
+            portaria e reservas do salão. No celular, no tablet da guarita ou no computador,
+            sem instalar nada.
+          </p>
+          <div class="tr-acoes tr-entra" style="--d: 3">
+            <a class="tr-btn tr-btn--azul" href={WHATSAPP} target="_blank" rel="noopener noreferrer">
+              Pedir demonstração <span aria-hidden="true">→</span>
+            </a>
+            <a class="tr-btn tr-btn--vidro" href="#planos">Ver planos</a>
+          </div>
+          <ul class="tr-provas tr-entra" style="--d: 4">
+            <li><b>30 dias</b> grátis para testar</li>
+            <li><b>LGPD</b> resolvida na implantação</li>
+            <li><b>Dados</b> guardados no Brasil</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 01 · Entradas e saídas -->
+      <section class="cap cap--dir" id="entradas" data-cap="entradas" data-hora="8" data-lado="dir">
+        <div class="cap-cartao">
+          <p class="cap-rotulo"><span>01</span> Entradas e saídas</p>
+          <h2 class="cap-titulo">Quem entrou, quem saiu. Em dois toques.</h2>
+          <p class="cap-texto">
+            Visitantes, prestadores e moradores registrados com foto tirada na hora pela câmera
+            do celular ou do tablet. A lista <b>Dentro agora</b> mostra quem está no condomínio,
+            e a saída sai em dois toques.
+          </p>
+          <div class="demo" aria-hidden="true">
+            <div class="demo-topo">
+              <span class="demo-titulo">Dentro agora</span>
+              <span class="demo-pilula"><i class="demo-vivo"></i> 3 pessoas · 1 carro</span>
+            </div>
+            <ul class="demo-lista">
+              <li style="--i: 0">
+                <span class="demo-av demo-av--a">MR</span>
+                <span class="demo-info"><b>Marcos R.</b><small>Prestador · Elétrica · Apto 71</small></span>
+                <span class="demo-hora">07:42</span>
+                <span class="demo-acao">Saída</span>
+              </li>
+              <li style="--i: 1">
+                <span class="demo-av demo-av--b">JL</span>
+                <span class="demo-info"><b>Júlia L.</b><small>Visitante · Apto 104</small></span>
+                <span class="demo-hora">07:55</span>
+                <span class="demo-acao">Saída</span>
+              </li>
+              <li style="--i: 2">
+                <span class="demo-placa"><i>BRASIL</i>RTO4B21</span>
+                <span class="demo-info"><b>Carro do morador</b><small>Apto 32 · vaga 12</small></span>
+                <span class="demo-hora">08:00</span>
+                <span class="demo-acao demo-acao--ok">Entrou</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02 · Encomendas -->
+      <section class="cap cap--esq" id="encomendas" data-cap="encomendas" data-hora="11" data-lado="esq">
+        <div class="cap-cartao">
+          <p class="cap-rotulo"><span>02</span> Encomendas</p>
+          <h2 class="cap-titulo">Chegou volume? O morador fica sabendo na hora.</h2>
+          <p class="cap-texto">
+            O porteiro registra com foto, apartamento e destinatário, com atalhos como Mercado
+            Livre e Shopee. Fica anotado quem recebeu, quem retirou e qual porteiro entregou.
+          </p>
+          <div class="demo demo--celular" aria-hidden="true" data-evento="encomenda">
+            <div class="demo-chips">
+              <span style="--i: 0">Mercado Livre</span>
+              <span style="--i: 1">Shopee</span>
+              <span style="--i: 2">Amazon</span>
+              <span style="--i: 3">Correios</span>
+            </div>
+            <div class="demo-notif">
+              <TrincoLogo class="demo-notif-logo" />
+              <span class="demo-notif-corpo">
+                <span class="demo-notif-topo"><b>Trinco</b><small>agora</small></span>
+                <strong>Encomenda na portaria 📦</strong>
+                <span>Mercado Livre · Apto 32. Recebida por Carlos às <span data-evento-hora>09:15</span>.</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 · Avisos de visita -->
+      <section class="cap cap--dir" id="visitas" data-cap="visitas" data-hora="14" data-lado="dir">
+        <div class="cap-cartao">
+          <p class="cap-rotulo"><span>03</span> Avisos de visita</p>
+          <h2 class="cap-titulo">O morador avisa. A portaria já espera.</h2>
+          <p class="cap-texto">
+            Pelo celular, o morador informa quem vai chegar, com nome, documento e horário
+            previsto. A portaria vê a lista de visitas do dia e, quando a visita entra, o
+            morador recebe o aviso.
+          </p>
+          <div class="demo" aria-hidden="true" data-evento="visita">
+            <div class="demo-topo">
+              <span class="demo-titulo">Visitas previstas · hoje</span>
+              <span class="demo-pilula">2</span>
+            </div>
+            <ul class="demo-lista">
+              <li style="--i: 0">
+                <span class="demo-av demo-av--c">AS</span>
+                <span class="demo-info"><b>Ana S.</b><small>Apto 32 · previsto 13:00</small></span>
+                <span class="demo-acao demo-estado">
+                  <span class="ev-antes">Aguardando</span>
+                  <span class="ev-depois">Chegou <span data-evento-hora>13:09</span></span>
+                </span>
+              </li>
+              <li style="--i: 1">
+                <span class="demo-av demo-av--d">PH</span>
+                <span class="demo-info"><b>Pedro H.</b><small>Apto 81 · previsto 16:30</small></span>
+                <span class="demo-acao demo-acao--espera">Aguardando</span>
+              </li>
+            </ul>
+            <div class="demo-notif demo-notif--mini">
+              <TrincoLogo class="demo-notif-logo" />
+              <span class="demo-notif-corpo">
+                <strong>Sua visita chegou</strong>
+                <span>Ana S. entrou às <span data-evento-hora>13:09</span>.</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 · Áreas comuns -->
+      <section class="cap cap--esq" id="areas" data-cap="areas" data-hora="17" data-lado="esq">
+        <div class="cap-cartao">
+          <p class="cap-rotulo"><span>04</span> Áreas comuns</p>
+          <h2 class="cap-titulo">Salão e churrasqueira, sem briga de agenda.</h2>
+          <p class="cap-texto">
+            Calendário do mês, períodos prontos (manhã, tarde e noite) e trava contra duas
+            reservas no mesmo horário. O síndico ou o zelador aprova ou recusa.
+          </p>
+          <div class="demo demo--agenda" aria-hidden="true" data-evento="reserva">
+            <div class="demo-topo">
+              <span class="demo-titulo">Salão de festas · novembro</span>
+            </div>
+            <div class="demo-mes">
+              {['D', 'S', 'T', 'Q', 'Q', 'S', 'S'].map((d) => <span class="demo-mes-sem">{d}</span>)}
+              {Array.from({ length: 30 }, (_, i) => i + 1).map((dia) => (
+                <span
+                  class:list={[
+                    'demo-dia',
+                    [7, 8, 14, 21, 28].includes(dia) && 'demo-dia--res',
+                    dia === 22 && 'demo-dia--sel',
+                  ]}
+                  style={`--i: ${dia}`}
+                >
+                  {dia}
+                </span>
+              ))}
+            </div>
+            <div class="demo-periodos">
+              <span class="demo-periodo"><b>Manhã</b> livre</span>
+              <span class="demo-periodo demo-periodo--res"><b>Tarde</b> reservado</span>
+              <span class="demo-periodo demo-periodo--pend">
+                <b>Noite</b>
+                <span class="ev-antes">Apto 52 pediu</span>
+                <span class="ev-depois">Apto 52 · aprovado</span>
+              </span>
+            </div>
+            <div class="demo-decide">
+              <span class="ev-antes demo-acao demo-acao--ok">Aprovar</span>
+              <span class="ev-antes demo-acao">Recusar</span>
+              <span class="ev-depois demo-acao demo-acao--ok">✓ Reserva aprovada pelo síndico</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 · Livro da portaria -->
+      <section class="cap cap--dir" id="livro" data-cap="livro" data-hora="18.5" data-lado="dir">
+        <div class="cap-cartao">
+          <p class="cap-rotulo"><span>05</span> Livro da portaria</p>
+          <h2 class="cap-titulo">Troca de turno sem recado perdido.</h2>
+          <p class="cap-texto">
+            Cada porteiro assume o turno com o próprio login, registra ocorrências e recados e
+            chama o zelador ou o síndico no celular. Na troca, a passagem de turno sai pronta e
+            quem entra confirma.
+          </p>
+          <div class="demo" aria-hidden="true" data-evento="turno">
+            <div class="demo-topo">
+              <span class="demo-titulo">Passagem de turno · tarde → noite</span>
+            </div>
+            <ul class="demo-lista demo-lista--livro">
+              <li style="--i: 0"><span class="demo-marca">📦</span><span class="demo-info"><b>3 encomendas aguardando retirada</b><small>Aptos 32 e 104</small></span></li>
+              <li style="--i: 1"><span class="demo-marca">🔧</span><span class="demo-info"><b>Prestador da elétrica saiu às 16:40</b><small>Serviço no Apto 71 concluído</small></span></li>
+              <li style="--i: 2"><span class="demo-marca">🔑</span><span class="demo-info"><b>Chave do salão com o Apto 52</b><small>Devolver amanhã até 10h</small></span></li>
+            </ul>
+            <span class="demo-confirma">
+              <span class="ev-antes">Confirmar e assumir o turno</span>
+              <span class="ev-depois">✓ Turno assumido às <span data-evento-hora>18:21</span></span>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- 06 · Quem usa -->
+      <section class="cap cap--centro" id="perfis" data-cap="perfis" data-hora="19.75" data-lado="centro">
+        <div class="cap-grupo">
+          <div class="cap-cabeca">
+            <p class="cap-rotulo cap-rotulo--claro"><span>06</span> Quem usa</p>
+            <h2 class="cap-titulo cap-titulo--claro">Feito para quem usa todo dia.</h2>
+          </div>
+          <div class="perfis">
+            <article class="cap-cartao perfil" style="--i: 0">
+              <div class="perfil-demo perfil-demo--facil" aria-hidden="true">
+                <span>Entrada</span><span>Encomenda</span><span>Visita</span><span>Saída</span>
+              </div>
+              <h3>Porteiro</h3>
+              <p>Modo Fácil, com botões grandes e opção de letras grandes. Não precisa ser bom de computador.</p>
+            </article>
+            <article class="cap-cartao perfil" style="--i: 1">
+              <div class="perfil-demo perfil-demo--morador" aria-hidden="true">
+                <span class="perfil-bolha">📦 Encomenda na portaria</span>
+                <span class="perfil-bolha">👋 Sua visita chegou</span>
+              </div>
+              <h3>Morador</h3>
+              <p>Recebe no celular o aviso de encomenda e de visita, e vê só o que é do seu apartamento.</p>
+            </article>
+            <article class="cap-cartao perfil" style="--i: 2">
+              <div class="perfil-demo perfil-demo--painel" aria-hidden="true">
+                <span style="--h: 40%"></span><span style="--h: 70%"></span><span style="--h: 55%"></span><span style="--h: 90%"></span><span style="--h: 65%"></span><span style="--h: 80%"></span>
+              </div>
+              <h3>Síndico e zelador</h3>
+              <p>Criam as contas, aprovam reservas e acompanham o dia no painel e na linha do tempo.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 · Segurança -->
+      <section class="cap cap--esq" id="seguranca" data-cap="seguranca" data-hora="21" data-lado="esq">
+        <div class="cap-cartao">
+          <p class="cap-rotulo"><span>07</span> Segurança e privacidade</p>
+          <h2 class="cap-titulo">Os dados do prédio protegidos, do jeito que a LGPD pede.</h2>
+          <ul class="seguro">
+            <li style="--i: 0">
+              <span class="seguro-ic" aria-hidden="true">🔐</span>
+              <span><b>Cada um vê só o que precisa.</b> Login próprio para síndico, zelador, porteiro e morador, com permissão conferida pelo servidor em cada pedido.</span>
+            </li>
+            <li style="--i: 1">
+              <span class="seguro-ic" aria-hidden="true">🇧🇷</span>
+              <span><b>Dados em São Paulo.</b> Banco e fotos no Brasil, fotos em armazenamento fechado e conexão sempre protegida (HTTPS).</span>
+            </li>
+            <li style="--i: 2">
+              <span class="seguro-ic" aria-hidden="true">🧾</span>
+              <span><b>Tudo registrado.</b> Toda alteração fica no histórico: quem fez, o quê e quando.</span>
+            </li>
+            <li style="--i: 3">
+              <span class="seguro-ic" aria-hidden="true">📄</span>
+              <span><b>LGPD já resolvida.</b> Termos aceitos no primeiro acesso, acordo de tratamento de dados e cartaz pronto para a portaria.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 08 · Planos -->
+      <section class="cap cap--centro cap--planos" id="planos" data-cap="planos" data-hora="22.5" data-lado="centro">
+        <div class="cap-grupo">
+          <div class="cap-cabeca">
+            <p class="cap-rotulo cap-rotulo--claro"><span>08</span> Planos</p>
+            <h2 class="cap-titulo cap-titulo--claro">Preço do tamanho do seu prédio.</h2>
+            <p class="cap-texto cap-texto--claro">
+              Sem cobrança por morador e sem taxa escondida. O valor segue o número de
+              apartamentos: prédio menor paga menos.
+            </p>
+          </div>
+          <div class="planos">
+            {planos.map((p, i) => (
+              <article class:list={['cap-cartao', 'plano', p.destaque && 'plano--destaque']} style={`--i: ${i}`}>
+                {p.destaque && <span class="plano-selo">Mais escolhido</span>}
+                <h3 class="plano-nome">{p.nome}</h3>
+                <p class="plano-resumo">{p.resumo}</p>
+                <p class="plano-preco">
+                  <span class="plano-moeda">R$</span>
+                  <span class="plano-valor">{p.preco}</span>
+                  <span class="plano-unidade">por apartamento<br />por mês</span>
+                </p>
+                <p class="plano-minimo">Mínimo de {p.minimo} por mês por condomínio</p>
+                <ul class="plano-itens">
+                  {p.itens.map((item) => <li>{item}</li>)}
+                </ul>
+                <a
+                  class:list={['tr-btn', p.destaque ? 'tr-btn--azul' : 'tr-btn--linha']}
+                  href={WHATSAPP}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Testar 30 dias grátis
+                </a>
+              </article>
+            ))}
+          </div>
+          <ul class="condicoes">
+            <li><b>30 dias grátis</b> para testar antes de assinar</li>
+            <li><b>12 meses:</b> 10% de desconto no semestre, ou pague 10 e use 12</li>
+            <li><b>Implantação grátis</b> com a lista de moradores em planilha</li>
+            <li><b>Mais de 40 apartamentos:</b> valor sob consulta</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <!-- Leitura: bloco sólido por cima da cena, com o fechamento da página -->
+    <div class="tr-leitura">
+      <Band items={['Entradas', 'Encomendas', 'Visitas', 'Reservas', 'Livro da portaria']} />
+
+      <section class="leitura-bloco" id="comecar" aria-labelledby="comecar-titulo">
+        <p class="leitura-rotulo">Como começar</p>
+        <h2 class="leitura-titulo" id="comecar-titulo">Do primeiro contato à portaria rodando.</h2>
+        <ol class="passos">
+          {passos.map((p, i) => (
+            <li class="passo" style={`--i: ${i}`}>
+              <span class="passo-num">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section class="leitura-bloco" id="duvidas" aria-labelledby="duvidas-titulo">
+        <div class="duvidas">
+          <div>
+            <p class="leitura-rotulo">Dúvidas</p>
+            <h2 class="leitura-titulo" id="duvidas-titulo">Perguntas que todo síndico faz.</h2>
+            <p class="leitura-texto">
+              Não achou a sua? Fale com a gente pelo
+              <a href={WHATSAPP} target="_blank" rel="noopener noreferrer">WhatsApp</a> ou pelo
+              <a href={EMAIL}>e-mail</a>.
+            </p>
+          </div>
+          <div class="perguntas">
+            {duvidas.map((d) => (
+              <details class="pergunta">
+                <summary>{d.p}<span class="pergunta-mais" aria-hidden="true"></span></summary>
+                <p>{d.r}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section class="leitura-bloco fim" aria-labelledby="fim-titulo">
+        <div class="fim-cartao">
+          <TrincoLogo variante="branco" animacao="vivo" class="fim-logo" />
+          <h2 class="fim-titulo" id="fim-titulo">Vamos organizar a portaria do seu prédio?</h2>
+          <p class="fim-texto">Peça uma demonstração sem compromisso. Mostramos o Trinco funcionando no celular, no tablet e no computador.</p>
+          <div class="tr-acoes tr-acoes--centro">
+            <a class="tr-btn tr-btn--branco" href={WHATSAPP} target="_blank" rel="noopener noreferrer">
+              Chamar no WhatsApp <span aria-hidden="true">→</span>
+            </a>
+            <a class="tr-btn tr-btn--vidro-escuro" href={EMAIL}>contato@vysionis.com.br</a>
+          </div>
+        </div>
+      </section>
+
+      <footer class="tr-rodape">
+        <div class="tr-rodape-marca">
+          <TrincoLogo class="tr-rodape-logo" />
+          <span><b>Trinco</b> é um produto <a href="/">Vysionis</a>. São Paulo, Brasil.</span>
+        </div>
+        <nav class="tr-rodape-links" aria-label="Rodapé">
+          <a href={APP}>Entrar no Trinco</a>
+          <a href="/">Vysionis</a>
+          <a href={EMAIL}>E-mail</a>
+          <a href="#inicio">Voltar ao topo ↑</a>
+        </nav>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    import '../trinco/cena.js'
+  </script>
+</Layout>
