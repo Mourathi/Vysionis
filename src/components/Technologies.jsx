@@ -46,14 +46,17 @@ function Technologies() {
         <div className="bento">
           <div className="tile tile--gradient w-4 tech-tile">
             <span className="tile-label tech-label">
-              <span className="tile-label-num">04</span> / Stack
+              <span className="tile-label-num">05</span> / Tecnologia
             </span>
             <div className="tech-rows">
               {rows.map((items, i) => (
                 <Marquee key={i} items={items} reverse={i % 2 === 1} />
               ))}
             </div>
-            <h2 className="display tech-title">Confiabilidade, não moda.</h2>
+            {/* Para quem compra: tecnologia conhecida = o sistema não fica refém de ninguém */}
+            <h2 className="display tech-title">
+              Tecnologia conhecida, que qualquer bom programador consegue manter.
+            </h2>
           </div>
         </div>
       </div>

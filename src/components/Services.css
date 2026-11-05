@@ -9,15 +9,42 @@
   transform: scale(1.12) rotate(-6deg);
 }
 
+.service-card {
+  gap: 1.5rem;
+}
+
 .service-card .tile-title {
-  font-size: clamp(1.35rem, 2.1vw, 2rem);
+  font-size: clamp(1.25rem, 1.8vw, 1.75rem);
   font-weight: 800;
   letter-spacing: -0.035em;
   text-transform: uppercase;
   line-height: 0.95;
 }
 
+.service-text {
+  font-size: 0.95rem;
+}
+
+.tile--gradient .service-text,
+.tile--ink .service-text {
+  color: inherit;
+  opacity: 0.78;
+}
+
+.service-tags {
+  margin-top: 1rem;
+}
+
+.tile--gradient .tag {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
 @media (max-width: 640px) {
+  /* Título e explicação lado a lado não cabem em meia tela */
+  .bento--m2 .service-card {
+    grid-column: span 2;
+  }
+
   .service-icon {
     width: 2.25rem;
     height: 2.25rem;

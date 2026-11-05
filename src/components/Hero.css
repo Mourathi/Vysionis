@@ -62,7 +62,7 @@
 .hero-title {
   margin: auto 0;
   padding: 2rem 0;
-  font-size: clamp(3rem, 12.5cqi, 11rem);
+  font-size: clamp(2.6rem, 9.6cqi, 9rem);
 }
 
 .hero-title .gradient-text {
@@ -78,9 +78,34 @@
 }
 
 .hero-subtitle {
-  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  max-width: 44ch;
+  font-size: clamp(1.05rem, 1.5vw, 1.3rem);
   font-weight: 500;
+  line-height: 1.45;
   color: var(--text-secondary);
+}
+
+.hero-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+/* ---------- Prova: o Trinco no ar ---------- */
+.hero-prova-pe {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.hero-prova-texto {
+  display: block;
+  margin-top: 0.5rem;
+  max-width: 24ch;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  color: var(--ink-muted);
 }
 
 /* ---------- Marca radiante ---------- */
@@ -191,6 +216,15 @@
   .hero-status {
     min-height: 0;
     height: 10rem;
+  }
+
+  /* A prova (Trinco no ar) vale mais que o símbolo decorativo: fica com a largura toda */
+  .hero-mark-tile {
+    display: none;
+  }
+
+  .bento--m2 .hero-prova {
+    grid-column: span 2;
   }
 
   .hero-mark {

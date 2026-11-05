@@ -1,0 +1,64 @@
+/* ---------- Como funciona ----------
+   Cada etapa tem o número num círculo e uma linha que se completa quando o card entra
+   na tela (.visible vem do Layout). Sem JS a linha só fica vazia: o texto está todo lá. */
+.etapa {
+  gap: 1.5rem;
+}
+
+.etapa-passo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.etapa-num {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--purple);
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--purple);
+  transition: background-color 0.4s ease, color 0.4s ease;
+  transition-delay: calc(0.35s + var(--n, 0) * 0.15s);
+}
+
+.etapa-linha {
+  flex: 1;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(var(--purple), var(--blue)) 0 0 / 0% 100% no-repeat, var(--border);
+  transition: background-size 0.8s var(--ease);
+  transition-delay: calc(0.5s + var(--n, 0) * 0.15s);
+}
+
+.etapa.visible .etapa-num {
+  background: var(--purple);
+  color: #fff;
+}
+
+.etapa.visible .etapa-linha {
+  background-size: 100% 100%, auto;
+}
+
+.etapa-titulo {
+  font-size: clamp(1.2rem, 1.7vw, 1.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .etapa-num,
+  .etapa-linha {
+    transition: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .bento--m2 .etapa {
+    grid-column: span 2;
+  }
+}

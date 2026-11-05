@@ -22,15 +22,22 @@ function Hero() {
       <div className="container">
         <div className="bento bento--m2 hero-bento">
           <div className="tile w-3 h-2 hero-intro">
-            <span className="tile-label">Estúdio de software sob medida</span>
+            <span className="tile-label">Software sob medida para empresas · São Paulo</span>
 
+            {/* Fala da dor de quem compra (planilha, papel, WhatsApp), não da tecnologia */}
             <h1 className="display hero-title">
-              Sistemas <span className="gradient-text">sob medida.</span>
+              Tire sua empresa <span className="gradient-text">da planilha.</span>
             </h1>
 
             <div className="hero-foot">
-              <p className="hero-subtitle">Web, mobile e back-end para a sua operação.</p>
-              <a href="#contact" className="btn btn-primary">Fale conosco</a>
+              <p className="hero-subtitle">
+                Criamos o sistema da sua operação, no computador e no celular, do jeito que a sua
+                empresa trabalha. Com preço fechado antes de começar.
+              </p>
+              <div className="hero-acoes">
+                <a href="#contact" className="btn btn-primary">Diagnóstico grátis</a>
+                <a href="#projects" className="btn btn-outline">Ver um sistema nosso</a>
+              </div>
             </div>
           </div>
 
@@ -62,13 +69,20 @@ function Hero() {
             </svg>
           </div>
 
-          <div className="tile tile--ink hero-status">
+          {/* Prova logo na primeira tela: um sistema nosso funcionando */}
+          <a href="/trinco/" className="tile tile--ink hero-status hero-prova">
             <span className="hero-status-badge">
               <span className="hero-status-dot" aria-hidden="true"></span>
-              Disponível
+              No ar
             </span>
-            <p className="display hero-status-city tile-bottom">São Paulo</p>
-          </div>
+            <span className="tile-bottom hero-prova-pe">
+              <span>
+                <span className="display hero-status-city">Trinco</span>
+                <span className="hero-prova-texto">Sistema de portaria que fizemos para condomínios</span>
+              </span>
+              <span className="tile-arrow" aria-hidden="true">→</span>
+            </span>
+          </a>
         </div>
 
         <a href="#about" className="scroll-cue">

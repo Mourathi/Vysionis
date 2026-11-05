@@ -36,7 +36,7 @@
 @media (min-width: 861px) {
   /* Espaço à direita para o indicador de telas não cobrir os cards */
   .projects:not(.projects--presa) .projects-track {
-    padding-right: calc(var(--gutter) + 2.75rem);
+    padding-right: calc(var(--gutter) + 4rem);
   }
 }
 
@@ -208,22 +208,4 @@
 
 .project-cta-title {
   font-size: clamp(2.2rem, 13cqi, 5.5rem);
-}
-
-/* Chamada do projeto que tem página própria (ex.: Trinco) */
-.project-link {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1.5rem;
-  padding-top: 1.1rem;
-  border-top: 1px solid var(--ink-border);
-  font-weight: 600;
-  font-size: 1rem;
-}
-
-.tile:not(.tile--ink) .project-link {
-  border-top-color: var(--border);
 }

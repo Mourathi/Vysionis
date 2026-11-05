@@ -50,8 +50,10 @@
   }
 }
 
+/* Mesma especificidade das regras acima (e depois delas), senão o voo continuava */
 @media (prefers-reduced-motion: reduce) {
   .scroll-animation:not(.visible) .tile,
+  .scroll-animation.visible .tile,
   .scroll-animation .tile {
     opacity: 1;
     animation: none;

@@ -3,10 +3,12 @@ import './ScreenNav.css'
 
 const SCREENS = [
   { id: 'home', label: 'Início' },
-  { id: 'about', label: 'Sobre' },
-  { id: 'projects', label: 'Projetos' },
+  { id: 'para-quem', label: 'Para quem' },
   { id: 'services', label: 'Serviços' },
-  { id: 'technologies', label: 'Stack' },
+  { id: 'projects', label: 'Caso real' },
+  { id: 'processo', label: 'Como funciona' },
+  { id: 'technologies', label: 'Tecnologia' },
+  { id: 'duvidas', label: 'Dúvidas' },
   { id: 'contact', label: 'Contato' },
 ]
 

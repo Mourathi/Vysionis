@@ -5,9 +5,10 @@ const columns = [
   {
     title: 'Empresa',
     links: [
-      { label: 'Sobre', href: '#about' },
-      { label: 'Projetos', href: '#projects' },
+      { label: 'Para quem é', href: '#para-quem' },
       { label: 'Serviços', href: '#services' },
+      { label: 'Caso real', href: '#projects' },
+      { label: 'Como funciona', href: '#processo' },
     ],
   },
   {
@@ -19,17 +20,10 @@ const columns = [
     links: [
       { label: 'Email', href: 'mailto:contato@vysionis.com.br' },
       { label: 'WhatsApp', href: 'https://wa.me/5511965804957', external: true },
-      { label: 'Formulário', href: '#contact' },
+      { label: 'Diagnóstico grátis', href: '#contact' },
     ],
   },
-  {
-    title: 'Social',
-    links: [
-      { label: 'LinkedIn', href: '#' },
-      { label: 'GitHub', href: '#' },
-      { label: 'Instagram', href: '#' },
-    ],
-  },
+  // Redes sociais: entram aqui quando os perfis estiverem no ar (link "#" parece site inacabado)
 ]
 
 function Footer() {

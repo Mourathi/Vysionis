@@ -129,6 +129,18 @@
   padding: 1.05rem 1.5rem;
 }
 
+.contact-nota {
+  margin-top: -0.4rem;
+  font-size: 0.85rem;
+  text-align: center;
+  color: var(--text-faint);
+}
+
+.contact-form-success-text a {
+  color: var(--purple);
+  font-weight: 600;
+}
+
 @media (max-width: 640px) {
   /* Email e WhatsApp em largura total: o endereço cabe numa linha */
   .bento--m2 .contact-channel {

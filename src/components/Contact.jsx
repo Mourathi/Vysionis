@@ -2,36 +2,33 @@ import React, { useId, useState } from 'react'
 import './Contact.css'
 import SectionHead from './SectionHead'
 import { EmailIcon } from './Icons'
+import { EMAIL, TELEFONE, WHATSAPP_DIAGNOSTICO, linkWhatsApp } from './contato'
 
-const EMAIL = 'contato@vysionis.com.br'
-const PHONE_DISPLAY = '+55 (11) 96580-4957'
-const WHATSAPP_HREF = 'https://wa.me/5511965804957'
+/** Texto que chega no WhatsApp da Vysionis, montado com o que a pessoa escreveu */
+function montarMensagem({ nome, empresa, mensagem }) {
+  const quem = empresa.trim() ? `${nome.trim()}, da ${empresa.trim()}` : nome.trim()
+  return `Olá! Sou ${quem} e quero agendar o diagnóstico gratuito.\n\n${mensagem.trim()}`
+}
 
 function Contact() {
   const formId = useId()
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-  })
-  const [formStatus, setFormStatus] = useState('idle')
-
-  const resetForm = () => {
-    setFormData({ name: '', email: '', message: '' })
-  }
+  const [formData, setFormData] = useState({ nome: '', empresa: '', mensagem: '' })
+  // Link do WhatsApp aberto por último (para quem estiver com o navegador bloqueando a janela)
+  const [aberto, setAberto] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    setFormStatus('success')
-    resetForm()
+    const url = linkWhatsApp(montarMensagem(formData))
+    setAberto(url)
+    // Abre numa aba nova (sem "noopener" nos parâmetros: com ele o open devolve null
+    // sempre e a página também navegaria). Bloqueado? Vai na mesma aba.
+    const janela = window.open(url, '_blank')
+    if (janela) janela.opener = null
+    else window.location.href = url
   }
 
   const handleChange = (e) => {
-    if (formStatus === 'success') setFormStatus('idle')
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }))
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))
   }
 
   return (
@@ -40,77 +37,75 @@ function Contact() {
         <div className="bento bento--m2">
           <SectionHead
             className="w-2 tile--ink"
-            num="05"
+            num="07"
             label="Contato"
-            title={<>Vamos<br />conversar.</>}
-            text="Respondemos em até um dia útil."
+            title={<>Agende o<br />diagnóstico grátis.</>}
+            text="30 minutos para entender a sua operação. Sem compromisso."
           />
 
           <div className="tile w-2 h-2 contact-form-card">
-            <h3 className="tile-title">Envie uma mensagem</h3>
+            <h3 className="tile-title">Conte o que você quer resolver</h3>
 
             <form className="contact-form" id={formId} onSubmit={handleSubmit}>
-              {formStatus === 'success' ? (
+              {aberto ? (
                 <div className="contact-form-success" role="status">
-                  <span className="contact-form-success-title">Mensagem registrada.</span>
+                  <span className="contact-form-success-title">Abrimos o WhatsApp com a sua mensagem.</span>
                   <span className="contact-form-success-text">
-                    Em breve integramos o envio ao servidor. Por enquanto, use o email ou o
-                    WhatsApp ao lado para uma resposta imediata.
+                    É só apertar enviar por lá. Não abriu?{' '}
+                    <a href={aberto} target="_blank" rel="noopener noreferrer">Abrir o WhatsApp</a>
                   </span>
                 </div>
               ) : null}
 
               <div className="contact-form-row">
                 <div className="contact-field">
-                  <label htmlFor={`${formId}-name`}>
+                  <label htmlFor={`${formId}-nome`}>
                     Nome <span className="contact-required-mark">*</span>
                   </label>
                   <input
-                    id={`${formId}-name`}
+                    id={`${formId}-nome`}
                     type="text"
-                    name="name"
+                    name="nome"
                     autoComplete="name"
                     placeholder="Como podemos te chamar"
-                    value={formData.name}
+                    value={formData.nome}
                     onChange={handleChange}
                     required
                   />
                 </div>
                 <div className="contact-field">
-                  <label htmlFor={`${formId}-email`}>
-                    Email <span className="contact-required-mark">*</span>
-                  </label>
+                  <label htmlFor={`${formId}-empresa`}>Empresa</label>
                   <input
-                    id={`${formId}-email`}
-                    type="email"
-                    name="email"
-                    autoComplete="email"
-                    placeholder="seu@email.com"
-                    value={formData.email}
+                    id={`${formId}-empresa`}
+                    type="text"
+                    name="empresa"
+                    autoComplete="organization"
+                    placeholder="Nome da empresa"
+                    value={formData.empresa}
                     onChange={handleChange}
-                    required
                   />
                 </div>
               </div>
 
               <div className="contact-field contact-field--grow">
-                <label htmlFor={`${formId}-message`}>
-                  Projeto ou mensagem <span className="contact-required-mark">*</span>
+                <label htmlFor={`${formId}-mensagem`}>
+                  O que mais atrapalha hoje? <span className="contact-required-mark">*</span>
                 </label>
                 <textarea
-                  id={`${formId}-message`}
-                  name="message"
+                  id={`${formId}-mensagem`}
+                  name="mensagem"
                   rows={4}
-                  placeholder="Conte um pouco do projeto"
-                  value={formData.message}
+                  placeholder="Ex.: controlamos os pedidos numa planilha e sempre some alguma coisa"
+                  value={formData.mensagem}
                   onChange={handleChange}
                   required
                 />
               </div>
 
               <button type="submit" className="btn btn-primary contact-submit">
-                Enviar mensagem
+                Continuar no WhatsApp
               </button>
+              <p className="contact-nota">A mensagem abre pronta no WhatsApp. Você revisa e envia.</p>
             </form>
           </div>
 
@@ -120,7 +115,7 @@ function Contact() {
             </span>
             <span className="tile-bottom contact-channel-foot">
               <span>
-                <span className="tile-label">Email</span>
+                <span className="tile-label">Prefere e-mail?</span>
                 <span className="contact-channel-value">{EMAIL}</span>
               </span>
               <span className="tile-arrow" aria-hidden="true">→</span>
@@ -129,7 +124,7 @@ function Contact() {
 
           <a
             className="tile tile--accent contact-channel"
-            href={WHATSAPP_HREF}
+            href={WHATSAPP_DIAGNOSTICO}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -137,12 +132,11 @@ function Contact() {
             <span className="tile-bottom contact-channel-foot">
               <span>
                 <span className="tile-label">Resposta rápida</span>
-                <span className="contact-channel-value">{PHONE_DISPLAY}</span>
+                <span className="contact-channel-value">{TELEFONE}</span>
               </span>
               <span className="tile-arrow" aria-hidden="true">→</span>
             </span>
           </a>
-
         </div>
       </div>
     </section>

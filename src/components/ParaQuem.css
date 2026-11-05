@@ -1,0 +1,82 @@
+/* ---------- Para quem é: dor riscada, solução em destaque ----------
+   Sem JS (ou antes de entrar na tela) todo o texto já aparece; o risco e o destaque são
+   só o movimento por cima. O Layout marca o card com .visible quando ele entra na tela. */
+.dor {
+  gap: 1.5rem;
+}
+
+.dor-num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--purple);
+}
+
+.dor-texto {
+  display: inline;
+  font-size: clamp(1.15rem, 1.7vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  /* O risco: uma linha que cresce da esquerda para a direita */
+  background: linear-gradient(var(--purple), var(--purple)) 0 58% / 0% 2px no-repeat;
+  transition: background-size 0.7s var(--ease), color 0.5s ease;
+  transition-delay: calc(0.45s + var(--n, 0) * 0.12s);
+}
+
+.dor-solucao {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+  line-height: 1.45;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: color 0.5s ease, transform 0.6s var(--ease);
+  transition-delay: calc(0.75s + var(--n, 0) * 0.12s);
+}
+
+.dor-check {
+  display: inline-grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background: var(--glow);
+  color: var(--purple);
+  font-size: 0.8rem;
+  font-weight: 800;
+  transition: background-color 0.4s ease, color 0.4s ease, transform 0.5s var(--ease);
+  transition-delay: inherit;
+}
+
+.dor.visible .dor-texto {
+  background-size: 100% 2px;
+  color: var(--text-faint);
+}
+
+.dor.visible .dor-solucao {
+  color: var(--text);
+}
+
+.dor.visible .dor-check {
+  background: var(--purple);
+  color: #fff;
+  transform: scale(1.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dor-texto,
+  .dor-solucao,
+  .dor-check {
+    transition: none;
+  }
+}
+
+/* Celular: texto corrido pede a largura toda (em duas colunas ficava 5 linhas por frase) */
+@media (max-width: 640px) {
+  .bento--m2 .dor {
+    grid-column: span 2;
+  }
+}

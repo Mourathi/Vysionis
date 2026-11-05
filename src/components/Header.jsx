@@ -3,10 +3,11 @@ import './Header.css'
 import ThemeToggle from './ThemeToggle'
 
 const LINKS = [
-  { label: 'Sobre', href: '#about' },
-  { label: 'Projetos', href: '#projects' },
+  { label: 'Para quem', href: '#para-quem' },
   { label: 'Serviços', href: '#services' },
-  { label: 'Stack', href: '#technologies' },
+  { label: 'Caso real', href: '#projects' },
+  { label: 'Como funciona', href: '#processo' },
+  { label: 'Dúvidas', href: '#duvidas' },
 ]
 
 // Arredondados: Node e navegador divergem nas últimas casas de Math.cos/sin,
@@ -61,14 +62,14 @@ function Header() {
               </a>
             ))}
             <a href="#contact" className="nav-contact" onClick={close}>
-              Contato
+              Diagnóstico grátis
             </a>
           </nav>
 
           <div className="header-actions">
             <ThemeToggle />
             <a href="#contact" className="btn btn-primary nav-cta" onClick={close}>
-              Contato
+              Diagnóstico grátis
             </a>
             <button
               type="button"

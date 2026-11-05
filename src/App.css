@@ -16,8 +16,10 @@
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* ---- Grade bento ---- */
-  --container: 1440px;
-  --gutter: clamp(0.75rem, 2vw, 1.5rem);
+  /* Sem largura máxima: o conteúdo ocupa a tela toda (como a galeria do caso real),
+     sem faixa vazia nas laterais em monitor grande; a margem cresce um pouco com a tela */
+  --container: none;
+  --gutter: clamp(0.75rem, 2vw, 2.25rem);
   --gap: clamp(0.5rem, 1vw, 0.75rem);
   --header-h: 4rem;
   --row: clamp(150px, 14vw, 210px);
@@ -325,7 +327,8 @@ a.tile--gradient:hover .tile-arrow {
 
 /* Desktop: espaço à direita para o indicador de telas não cobrir os blocos */
 @media (min-width: 861px) {
-  .container { padding-right: calc(var(--gutter) + 2.75rem); }
+  /* Régua de telas (~53px) + respiro: os cards não encostam nela */
+  .container { padding-right: calc(var(--gutter) + 4rem); }
 }
 
 @media (max-width: 860px) {
